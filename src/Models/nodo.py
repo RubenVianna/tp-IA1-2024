@@ -7,4 +7,5 @@ class Nodo:
         self.estado= None
         self.conexiones= []
 
+
     
