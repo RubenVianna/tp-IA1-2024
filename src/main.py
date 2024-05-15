@@ -8,11 +8,11 @@ nodo1 = Nodo('A')
 nodo1.coordenada_x=1
 nodo1.coordenada_y=2
 nodo2 = Nodo('B')
-nodo2.coordenada_x=8
-nodo2.coordenada_y=1
+nodo2.coordenada_x=4
+nodo2.coordenada_y=6
 nodo3 = Nodo('C')
-nodo3.coordenada_x=4
-nodo3.coordenada_y=6
+nodo3.coordenada_x=8
+nodo3.coordenada_y=1
 nodo4 = Nodo('D')
 nodo4.coordenada_x=10
 nodo4.coordenada_y=2
@@ -48,10 +48,13 @@ nodo3.conexiones.append(nodo5.nombre)
 nodo4.conexiones.append(nodo2.nombre)
 nodo4.conexiones.append(nodo5.nombre)
 
-#relaciones nodo E (C,D)
+#relaciones nodo E (C,D,F)
 nodo5.conexiones.append(nodo3.nombre)
 nodo5.conexiones.append(nodo4.nombre)
+nodo5.conexiones.append(nodo6.nombre)
 
+#relaciones nodo F (E)
+nodo6.conexiones.append(nodo5.nombre)
 
 nodos= []
 
@@ -60,7 +63,7 @@ nodos+=[nodo6,nodo1,nodo5,nodo3,nodo4,nodo2]
 # calculo de heuristica
 i= 0
 while i < cantNodos:
-    heuristica = distanciaManhattan(nodos[i],nodo6)
+    heuristica = distanciaManhattan(nodos[i],nodo5)
     nodos[i].heuristica = heuristica
     i= i+ 1
 

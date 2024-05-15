@@ -32,7 +32,8 @@ def calcularMaximaPendiente(nodos):
                 print("------------------------------------------------------------")
                 print("Analizando nodo:", nodoActual.nombre, "con padre:", nodoActual.padre)
                 recorridoMaxPendiente.append(nodoActual)
-                nodosExplorados.append(nodoActual)
+                if not existe_nodo(nodosExplorados, nodoActual.nombre):
+                    nodosExplorados.append(nodoActual)
                 if nodoActual.estadoF == 'F':
                     solucionActual = nodoActual
                     bandera = False
@@ -44,10 +45,8 @@ def calcularMaximaPendiente(nodos):
                                 if nodoAux.nombre == conexion: #controlo si el nodo del array de nodos no explorados es alguno los nodos conectados al nodo actual
                                     if not existe_nodo(nodosExplorados, nodoAux.nombre):
                                         nodoAux.padre = nodoActual.nombre
+                                        nodosExplorados.append(nodoAux)
                                         nodosConectados.append(nodoAux) #agrego el nodo al array de nodos conectados para evaluar despues si su heuristica es mejor que el de la solucion actual
-                            # if nodosConectados == []:
-                            #     print("el nodo:",nodoActual.nombre, "no posee hijos no explorados")
-                            #     bandera = False
                             for nC in nodosConectados:
                                 print(nodoActual.nombre, nC.nombre, nC.heuristica)
                                 if nC.heuristica < solucionActual.heuristica:
@@ -70,119 +69,6 @@ def calcularMaximaPendiente(nodos):
     for i in recorridoMaxPendiente:
         print(i.heuristica, i.nombre)
     print("------------------------------------------------------------")
-   
 
-
-   
-    # print("nodos no explorados:")
-    # for r in nodosNoExplorados:
-    #     print(r.nombre)
-    
-
-
-############################################################################################ version mas estable
-    # for nodoActual in nodosNoExplorados:
-    #     nodosExplorados.append(nodoActual)
-    #     nodosNoExplorados.remove(nodoActual)
-    #     if nodoActual.estadoF == 'F':
-    #         solucionActual = nodoActual
-    #         recorridoMaxPendiente.append(nodoActual) #cargo el nodo final al array de nodos recorridos
-    #         print('la solucion es:',solucionActual.nombre)
-    #         break #finalizo la ejecucion ya que se encontro el nodo final
-    #     else:
-    #         if nodoActual.conexiones != []:
-    #             for conexion in nodoActual.conexiones: #recorro las conexiones del nodo actual para ver que con que nodos tengo que comparar la heuristica
-    #                 nodosConectados = [] #defino un array para ir cargando la heuristica de los nodos que estan relacionados
-    #                 for nodoAux in nodosNoExplorados: #recorro el array de nodos no explorados
-    #                     if nodoAux.nombre == conexion: #controlo si el nodo del array de nodos no explorados es alguno los nodos conectados al nodo actual
-    #                         nodosConectados.append(nodoAux) #agrego el nodo al array de nodos conectados para evaluar despues si su heuristica es mejor que el de la solucion actual
-    #                         nodosExplorados.append(nodoAux) #agrego el nodo al array de nodos explorados
-    #                         nodosNoExplorados.remove(nodoAux) #elimino el nodo del array de NO explorados
-    #                 if nodosConectados == []:
-    #                     print("el nodo:",nodoActual.nombre, "no posee hijos no Explorados")
-    #                     break
-    #                 for nC in nodosConectados:
-    #                     print(nodoActual.nombre, nC.nombre, nC.heuristica)
-    #         else:
-    #             print("el nodo:",nodoActual.nombre, "no posee hijos")
-    #             break
-    #             # if solucionActual.heuristica == nodoActual.heuristica:
-    #             #     break                   
-    #         # nodosExplorados.append(nodoAux)
-    #         # nodosNoExplorados.remove(nodoAux
-
-    # print("nodos explorados:")
-    # for i in nodosExplorados:
-    #     print(i.heuristica, i.nombre)
-
-    # print("nodos no explorados:")
-    # for r in nodosNoExplorados:
-    #     print(r.nombre)
-
-
-
-    ##############################################
-
-    # for nodoActual in nodosNoExplorados:
-    #     nodosExplorados.append(nodoActual)
-    #     nodosNoExplorados.remove(nodoActual)
-    #     if nodoActual.estadoF == 'F':
-    #         solucionActual = nodoActual
-    #         recorridoMaxPendiente.append(nodoActual) #cargo el nodo final al array de nodos recorridos
-    #         break #finalizo la ejecucion ya que se encontro el nodo final
-    #     else:
-    #         if nodoActual.conexiones != []:
-    #             for conexion in nodoActual.conexiones: #recorro las conexiones del nodo actual para ver que con que nodos tengo que comparar la heuristica
-    #                 nodosConectados = [] #defino un array para ir cargando la heuristica de los nodos que estan relacionados
-    #                 for nodoAux in nodosNoExplorados: #recorro el array de nodos no explorados
-    #                     if nodoAux.nombre == conexion: #controlo si el nodo del array de nodos no explorados es alguno los nodos conectados al nodo actual
-    #                         nodosConectados.append(nodoAux) 
-    #                         nodosExplorados.append(nodoAux)
-    #                         nodosNoExplorados.remove(nodoAux)
-    #                 if nodosConectados == []:
-    #                     print("el nodo:",nodoActual.nombre, "no posee hijos no Explorados")
-    #                 for nC in nodosConectados:
-    #                     print(nodoActual.nombre, nC.nombre, nC.heuristica)
-    #         else:
-    #             print("el nodo:",nodoActual.nombre, "no posee hijos")
-    #             # if solucionActual.heuristica == nodoActual.heuristica:
-    #             #     break                   
-    #         # nodosExplorados.append(nodoAux)
-    #         # nodosNoExplorados.remove(nodoAux)
-
-
-
-    # print('el nodo final es:',solucionActual.nombre)
-
-    # print("nodos explorados:")
-    # for i in nodosExplorados:
-    #     print(i.heuristica, i.nombre)
-
-    # print("nodos no explorados:")
-    # for r in nodosNoExplorados:
-    #     print(r.nombre)
-
-    # for re in recorridoMaxPendiente:
-    #     print ("el recorrido es:", re.nombre)
-         
-
-
-
-
-
-
-
-
-
-    # def maxima_pendiente_con_historial(nodos, distancias, conexiones):    
-    #         solucion_actual = nodosOrdenados[0]  # Comenzamos desde el primer nodo
-    #         historial = [solucion_actual]  # Inicializamos el historial con el primer nodo
-    #         while True:
-    #             vecinos = [(nodo, distancias[nodo]) for nodo in conexiones[solucion_actual] if nodo not in historial]
-    #             if not vecinos:
-    #                 return historial  # Si el nodo actual no tiene vecinos no visitados, devolvemos el historial
-    #             mejor_vecino = max(vecinos, key=lambda x: x[1])  # Encontrar el vecino con la mayor heurística
-    #             if mejor_vecino[1] <= distancias[solucion_actual]:
-    #                 return historial  # Si no hay mejora, devolvemos el historial actual
-    #             solucion_actual = mejor_vecino[0]  # Actualizamos la solución actual con el mejor vecino
-    #             historial.append(solucion_actual)  # Agregamos el nodo actual al historial
+    for e in nodosExplorados:
+        print(e.nombre)
