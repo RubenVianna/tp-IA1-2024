@@ -6,7 +6,8 @@ class Nodo:
         self.heuristica= None
         self.estadoI= None
         self.estadoF=None
-        self.MinLoc=None
+        self.minLoc=None
+        self.padre=None
         self.conexiones= []
 
 

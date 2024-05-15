@@ -8,11 +8,11 @@ nodo1 = Nodo('A')
 nodo1.coordenada_x=1
 nodo1.coordenada_y=2
 nodo2 = Nodo('B')
-nodo2.coordenada_x=4
-nodo2.coordenada_y=6
+nodo2.coordenada_x=8
+nodo2.coordenada_y=1
 nodo3 = Nodo('C')
-nodo3.coordenada_x=8
-nodo3.coordenada_y=1
+nodo3.coordenada_x=4
+nodo3.coordenada_y=6
 nodo4 = Nodo('D')
 nodo4.coordenada_x=10
 nodo4.coordenada_y=2
@@ -26,8 +26,8 @@ nodo6.coordenada_y=8
 cantNodos = 6
 
 #definimos al nodo 5 como nodo final
-nodo6.estadoF = 'F'
-nodo2.estadoI = 'I'
+nodo5.estadoF = 'F'
+nodo1.estadoI = 'I'
 
 #logica
 
