@@ -2,6 +2,8 @@ from Controllers.herustica import distanciaLineaRecta
 from Controllers.herustica import distanciaManhattan
 from Controllers.maximaPendiente import calcularMaximaPendiente
 from Models.nodo import Nodo
+import networkx as nx
+import matplotlib.pyplot as plt
 
 #ejemplo de como usar la funcion para distancia en linea recta
 nodo1 = Nodo('A')
@@ -67,17 +69,33 @@ while i < cantNodos:
     nodos[i].heuristica = heuristica
     i= i+ 1
 
-calcularMaximaPendiente(nodos)
+#calcularMaximaPendiente(nodos)
 
-# print(nodos)
-# #array de nodos
+# Crear un grafo vacío
+G = nx.Graph()
+
+# # Agregar nodos
+# G.add_node(nodo6.nombre)
+# G.add_node(nodo1.nombre)
+# G.add_node(nodo5.nombre)
+
+# Agregar aristas (edges)
+i= 0
+aristas = None
+while i < cantNodos:
+    for nodo in nodos[i].nombre:
+        for con in nodos[i].conexiones:
+            G.add_edge(nodo, con)
+    i= i+ 1
 
 
-# print(nodo2.conexiones)
 
+# G.add_edge()
+# G.add_edge(nodo2.coordenada_x, 3)
+# G.add_edge(2, 3)
 
+# Dibujar el grafo
+nx.draw(G, with_labels=True, node_color='lightblue', edge_color='gray', node_size=200, font_size=10)
 
-
-
-# print("El nodo 1 es:" , nodo1.nombre , "con coordenadas:" , nodo1.coordenada_x , "y", nodo1.coordenada_y, "su heuristica es:", heuristica)
-# print("El nodo 2 es:", nodo2.nombre, "con coordenadas:" , nodo2.coordenada_x , "y", nodo2.coordenada_y, "su heuristica es:", heuristica2)
+# Mostrar el grafo
+plt.show()

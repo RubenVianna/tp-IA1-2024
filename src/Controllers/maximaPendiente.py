@@ -72,3 +72,4 @@ def calcularMaximaPendiente(nodos):
 
     for e in nodosExplorados:
         print(e.nombre)
+        
