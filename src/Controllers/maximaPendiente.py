@@ -1,8 +1,5 @@
-def existe_nodo(lista, nombre):
-    for nodo in lista:
-        if nodo.nombre == nombre:
-            return True
-    return False
+def existe_nodo(listaNodos, nombre):
+    return any(nodo.nombre == nombre for nodo in listaNodos)
 
 def calcularMaximaPendiente(nodos):
     nodosAlf = sorted(nodos, key=lambda x: x.nombre) #ordenamos alfabeticamente los nodos
@@ -22,11 +19,10 @@ def calcularMaximaPendiente(nodos):
         print("la heuristica de", nodo.nombre, "es", nodo.heuristica)
 
     solucionActual = nodosOrdenados[0] #definimos al primer nodo como solucion actual antes de comenzar a recorrer los demas nodos
-    nodosNoExplorados = nodosOrdenados.copy() #se hace una copia para no alterar el orden de los nodos cargados
-
-
-    bandera = True
+    #nodosNoExplorados = nodosOrdenados.copy() #se hace una copia para no alterar el orden de los nodos cargados
     
+    bandera = True
+
     while bandera == True:
         for nodoActual in nodosOrdenados:
             if solucionActual == nodoActual:
@@ -35,6 +31,8 @@ def calcularMaximaPendiente(nodos):
                 recorridoMaxPendiente.append(nodoActual)
                 if not existe_nodo(nodosExplorados, nodoActual.nombre):
                     nodosExplorados.append(nodoActual)
+                    if nodoActual.estadoI == 'I':
+                        bandera = False
                 if nodoActual.estadoF == 'F':
                     solucionActual = nodoActual
                     bandera = False
@@ -42,7 +40,7 @@ def calcularMaximaPendiente(nodos):
                     if nodoActual.conexiones != []:
                         for conexion in nodoActual.conexiones: #recorro las conexiones del nodo actual para ver que con que nodos tengo que comparar la heuristica
                             nodosConectados = [] #defino un array para ir cargando la heuristica de los nodos que estan relacionados
-                            for nodoAux in nodosNoExplorados: #recorro el array de nodos no explorados
+                            for nodoAux in nodosOrdenados: #recorro el array de nodos no explorados
                                 if nodoAux.nombre == conexion.nombre: #controlo si el nodo del array de nodos no explorados es alguno los nodos conectados al nodo actual
                                     if not existe_nodo(nodosExplorados, nodoAux.nombre):
                                         nodoAux.padre = nodoActual.nombre

@@ -1,6 +1,7 @@
 from Controllers.herustica import distanciaLineaRecta
 from Controllers.herustica import distanciaManhattan
 from Controllers.maximaPendiente import calcularMaximaPendiente
+from Controllers.escaladaSimple import calcularEscaladaSimple
 from networkx.drawing.nx_agraph import graphviz_layout
 from Models.nodo import Nodo
 import networkx as nx
@@ -25,14 +26,14 @@ def crear_y_mostrar_arbol(nodosExplorados):
 
 #ejemplo de como usar la funcion para distancia en linea recta
 nodo1 = Nodo('A')
-nodo1.coordenada_x=1
-nodo1.coordenada_y=2
+nodo1.coordenada_x=5
+nodo1.coordenada_y=4
 nodo2 = Nodo('B')
-nodo2.coordenada_x=4
-nodo2.coordenada_y=6
+nodo2.coordenada_x=5
+nodo2.coordenada_y=4
 nodo3 = Nodo('C')
-nodo3.coordenada_x=8
-nodo3.coordenada_y=1
+nodo3.coordenada_x=5
+nodo3.coordenada_y=14
 nodo4 = Nodo('D')
 nodo4.coordenada_x=10
 nodo4.coordenada_y=2
@@ -47,7 +48,6 @@ cantNodos = 6
 
 #definimos al nodo 5 como nodo final
 nodo5.estadoF = 'F'
-nodo2.estadoF = 'F'
 nodo1.estadoI = 'I'
 
 #logica
@@ -91,10 +91,16 @@ nodo6.conexiones.append(nodo5)
 
 
 
-recorridoMaximaPendiente, nodosExplorados = calcularMaximaPendiente(nodos)
-crear_y_mostrar_arbol(nodosExplorados)
+recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(nodos)
+escaladaSimple , nodosExploradosES = calcularEscaladaSimple(nodos)
+
+crear_y_mostrar_arbol(nodosExploradosMP)
+crear_y_mostrar_arbol(nodosExploradosES)
 
 for s in recorridoMaximaPendiente:
+    print("Paso: ",s.nombre, "Heuristica: ", s.heuristica)
+
+for e in escaladaSimple:
     print("Paso: ",s.nombre, "Heuristica: ", s.heuristica)
 
 # # Crear un grafo vacío
