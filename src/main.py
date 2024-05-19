@@ -41,7 +41,7 @@ from Models.nodo import Nodo
 
 # nodos+=[nodo6,nodo1,nodo5,nodo3,nodo4,nodo2,nodo7]
 
-# # calculo de heuristica
+# #calculo de heuristica
 # i= 0
 # while i < cantNodos:
 #     heuristica = distanciaManhattan(nodos[i],nodo7)
@@ -77,7 +77,7 @@ from Models.nodo import Nodo
 # #relaciones nodo F (E)
 # nodo6.conexiones.append(nodo5)
 
-# #graficarGrafo(nodos)
+# graficarGrafo(nodos)
 
 # recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(nodos)
 
@@ -89,15 +89,15 @@ from Models.nodo import Nodo
 # for s in recorridoMaximaPendiente:
 #     print("Paso: ",s.nombre, "Heuristica: ", s.heuristica, 'con padre:', s.padre, "es un minimo local:", s.minLoc)
 
-# # print('Escalada Simple')
-# # for e in escaladaSimple:
-# #     print("Paso: ",e.nombre, "Heuristica: ", e.heuristica, 'con padre:', e.padre, "es un minimo local:", e.minLoc)
+# print('Escalada Simple')
+# for e in escaladaSimple:
+#     print("Paso: ",e.nombre, "Heuristica: ", e.heuristica, 'con padre:', e.padre, "es un minimo local:", e.minLoc)
 
 # graficaryMostrarArbol(nodosExploradosMP, 'Arbol Maxima Pendiente', mostrarResultados=True)
 
-# #graficarPasoAPaso(nodosExploradosES,'Arbol Escalada Simple')
+# graficarPasoAPaso(nodosExploradosES,'Arbol Escalada Simple')
 
-# graficarPasoAPaso(nodosExploradosMP,'Arbol Maxima Pendiente')
+#graficarPasoAPaso(nodosExploradosMP,'Arbol Maxima Pendiente')
 
 #------------------ ARBOL-------------------------------------
 
