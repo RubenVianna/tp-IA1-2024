@@ -119,13 +119,19 @@ def calcularMaximaPendiente(nodos, nodoActual=None, solucionActual=None, recorri
             for conexion in nodoActual.conexiones:
                 for nodoAux in nodos:
                     if nodoAux.nombre == conexion.nombre:
+                        print(nodoActual.nombre, nodoAux.nombre, nodoAux.heuristica)
+                        if nodoAux.estadoF == 'F':
+                            nodoAux.padre = nodoActual.nombre
+                            nodosExplorados.append(nodoAux)
+                            nodosConectados.append(nodoAux)
+                            recorridoMaxPendiente.append(nodoAux)
+                            print("La solución es:", nodoAux.nombre)
+                            return recorridoMaxPendiente, nodosExplorados
                         if not existe_nodo(nodosExplorados, nodoAux.nombre):
                             nodoAux.padre = nodoActual.nombre
                             nodosExplorados.append(nodoAux)
                             nodosConectados.append(nodoAux)
-            
             for nC in nodosConectados:
-                print(nodoActual.nombre, nC.nombre, nC.heuristica)
                 if nC.heuristica < solucionActual.heuristica:
                     solucionActual = nC
         

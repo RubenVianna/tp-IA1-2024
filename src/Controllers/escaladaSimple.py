@@ -132,7 +132,6 @@
 
 #     return escaladaSimple, nodosExplorados
 
-
 def exploracion(nodo, nodosNoExplorados, nodosRecorridos):
     nodosNoExploradosLocal = nodosNoExplorados.copy()
     nodo.conexiones.sort(key=lambda nodo: nodo.nombre)
@@ -140,7 +139,11 @@ def exploracion(nodo, nodosNoExplorados, nodosRecorridos):
     conexionesNoExploradas = [nodo for nodo in nodoActual.conexiones if nodo in nodosNoExploradosLocal]
 
     caminoSolucion = [nodoActual]
-    nodosRecorridos.append(nodoActual)
+
+    if nodoActual.estadoI == 'I':
+        nodosRecorridos.append(nodoActual)
+        nodosNoExploradosLocal.remove(nodoActual)
+
 
     print('Comienza el algoritmo, nodoActual:', nodoActual.nombre, 'y sus conexiones son: ')
     for nodi in nodoActual.conexiones:
@@ -165,10 +168,11 @@ def exploracion(nodo, nodosNoExplorados, nodosRecorridos):
             return caminoSolucion, nodosRecorridos
         
         print('El nodo:', nodoCandidato.nombre, ' no es final. Sigue...')
+        nodoCandidato.padre = nodoActual.nombre
+        nodosRecorridos.append(nodoCandidato)
         print('El ultimo nodo de las conexiones es:', nodoActual.conexiones[-1].nombre)
         if nodoCandidato.heuristica < nodoActual.heuristica:
             print('Evaluacion de heuristica verdadera - El nodo: ', nodoCandidato.nombre, 'mejora la heuristica del NodoActual')
-            nodoCandidato.padre = nodoActual.nombre
             nodosNoExploradosLocal.remove(nodoCandidato)
             nodoActual = nodoCandidato
             subcamino, subrecorridos = exploracion(nodoActual, nodosNoExploradosLocal, nodosRecorridos)
