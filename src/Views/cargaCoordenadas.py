@@ -1,9 +1,12 @@
 from Models.nodo import Nodo
+from Views.cargarRelaciones import CargaRelaciones
 from Controllers.herustica import *
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QLineEdit, QRadioButton, QPushButton, QButtonGroup
+from PyQt5 import Qt
 from PyQt5.QtGui import QIntValidator, QFont
 
 class CargaCoordenadas(QWidget):
+
     def __init__(self, nodos):
         super().__init__()
         self.setWindowTitle("Listado de Nodos")
@@ -83,12 +86,15 @@ class CargaCoordenadas(QWidget):
     
         i= 0
         while i < len(nodos):
-            heuristica = distanciaLineaRecta(nodos[i],nodoFinal)
-            nodos[i].heuristica = heuristica
+            if coordenada_x and coordenada_y:
+                heuristica = distanciaLineaRecta(nodos[i],nodoFinal)
+                nodos[i].heuristica = heuristica
             i= i+ 1
 
-        for n in nodos:
-            print("El nodo", n.nombre, "tiene Coordenada X:", n.coordenada_x, "y Coordenada Y:", n.coordenada_y, "con Heuristica:",n.heuristica,"con Estado Inicial:", n.estadoI, "y Estado Final:", n.estadoF)
+        self.hide()
+        self.cargaRelaciones = CargaRelaciones(nodos)
+        self.cargaRelaciones.show()
+
         
     def calcularManhattan(self):
         nodos = []
@@ -113,12 +119,12 @@ class CargaCoordenadas(QWidget):
         for n in nodos:
             if n.estadoF == 'F':
                 nodoFinal = n
-                
+
         i= 0
         while i < len(nodos):
-            heuristica = distanciaManhattan(nodos[i],nodoFinal)
-            nodos[i].heuristica = heuristica
+            if coordenada_x and coordenada_y:
+                heuristica = distanciaManhattan(nodos[i],nodoFinal)
+                nodos[i].heuristica = heuristica
             i= i+ 1
 
-        for n in nodos:
-            print("El nodo", n.nombre, "tiene Coordenada X:", n.coordenada_x, "y Coordenada Y:", n.coordenada_y, "con Heuristica:",n.heuristica,"con Estado Inicial:", n.estadoI, "y Estado Final:", n.estadoF)
+        self.abrir_cargar_relaciones_signal.emit(nodos)
