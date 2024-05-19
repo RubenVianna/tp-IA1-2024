@@ -156,6 +156,11 @@ def exploracion(nodo, nodosNoExplorados, nodosRecorridos):
     print('Por lo tanto se itera unicamente sobre los nodos: ')
     for nodin in conexionesNoExploradas:
         print(nodin.nombre)
+    
+    if len(conexionesNoExploradas) == 0 and nodoActual.estadoF != 'F':
+            nodoActual.minLoc = 'ML'
+            print('Se llego a un mínimo local:', nodoActual.nombre)
+
 
     # ----------------------------------------------------------- CICLO RECURSIVO ----------------------------------------------------------------------
     for nodoCandidato in conexionesNoExploradas:
@@ -170,7 +175,6 @@ def exploracion(nodo, nodosNoExplorados, nodosRecorridos):
         print('El nodo:', nodoCandidato.nombre, ' no es final. Sigue...')
         nodoCandidato.padre = nodoActual.nombre
         nodosRecorridos.append(nodoCandidato)
-        print('El ultimo nodo de las conexiones es:', nodoActual.conexiones[-1].nombre)
         if nodoCandidato.heuristica < nodoActual.heuristica:
             print('Evaluacion de heuristica verdadera - El nodo: ', nodoCandidato.nombre, 'mejora la heuristica del NodoActual')
             nodosNoExploradosLocal.remove(nodoCandidato)
@@ -178,8 +182,12 @@ def exploracion(nodo, nodosNoExplorados, nodosRecorridos):
             subcamino, subrecorridos = exploracion(nodoActual, nodosNoExploradosLocal, nodosRecorridos)
             caminoSolucion.extend(subcamino)
             return caminoSolucion, subrecorridos
-
+        elif nodoCandidato == conexionesNoExploradas[-1]:
+            nodoActual.minLoc = 'ML'
+            print('Se llego a un mínimo local:', nodoActual.nombre)
+      
     print('Se llego al final de las conexiones para el nodo', nodoActual.nombre)
+
     return caminoSolucion, nodosRecorridos
 
 def calcularEscaladaSimple(nodos):
