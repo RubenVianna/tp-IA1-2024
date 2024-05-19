@@ -29,11 +29,11 @@ nodo1 = Nodo('A')
 nodo1.coordenada_x=5
 nodo1.coordenada_y=4
 nodo2 = Nodo('B')
-nodo2.coordenada_x=5
+nodo2.coordenada_x=4
 nodo2.coordenada_y=4
 nodo3 = Nodo('C')
-nodo3.coordenada_x=5
-nodo3.coordenada_y=14
+nodo3.coordenada_x=10
+nodo3.coordenada_y=5
 nodo4 = Nodo('D')
 nodo4.coordenada_x=10
 nodo4.coordenada_y=2
@@ -48,7 +48,7 @@ cantNodos = 6
 
 #definimos al nodo 5 como nodo final
 nodo5.estadoF = 'F'
-nodo1.estadoI = 'I'
+nodo3.estadoI = 'I'
 
 #logica
 nodos= []
@@ -88,20 +88,28 @@ nodo5.conexiones.append(nodo6)
 #relaciones nodo F (E)
 nodo6.conexiones.append(nodo5)
 
-
-
-
 recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(nodos)
+
+print("-------------------------------------------")
+
 escaladaSimple , nodosExploradosES = calcularEscaladaSimple(nodos)
 
-crear_y_mostrar_arbol(nodosExploradosMP)
+# print("-----------------------------------------------------")
+# for ne in nodosExploradosES:
+#     print(ne.nombre, ne.heuristica)
+
+print("-----------------------------------------------------")
+# for ne in nodosExploradosMP:
+#     print(ne.nombre, ne.heuristica)
+
+# crear_y_mostrar_arbol(nodosExploradosMP)
 crear_y_mostrar_arbol(nodosExploradosES)
-
+print('Maxima pendiente')
 for s in recorridoMaximaPendiente:
-    print("Paso: ",s.nombre, "Heuristica: ", s.heuristica)
-
+    print("Paso: ",s.nombre, "Heuristica: ", s.heuristica, 'con padre:', s.padre)
+print('Escalada Simple')
 for e in escaladaSimple:
-    print("Paso: ",s.nombre, "Heuristica: ", s.heuristica)
+    print("Paso: ",e.nombre, "Heuristica: ", e.heuristica, 'con padre:', e.padre)
 
 # # Crear un grafo vacío
 # G = nx.Graph()
