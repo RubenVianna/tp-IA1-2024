@@ -60,7 +60,7 @@ def graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados):
         plt.title(titulo)
         plt.show()
 
-def graficarPasoAPaso(nodosExploradosES, titulo):
+def graficarPasoAPaso(nodosExplorados, titulo):
     
     # Inicializar una lista vacía para almacenar los nodos acumulativos
     nodos_acumulativos = []
@@ -72,12 +72,12 @@ def graficarPasoAPaso(nodosExploradosES, titulo):
     nodos_por_iteracion = 1
 
     # Mientras haya nodos por enviar
-    while contador_nodos_enviados < len(nodosExploradosES):
+    while contador_nodos_enviados < len(nodosExplorados):
         # Determinar cuántos nodos enviar en esta iteración
-        nodos_a_enviar = min(nodos_por_iteracion, len(nodosExploradosES) - contador_nodos_enviados)
+        nodos_a_enviar = min(nodos_por_iteracion, len(nodosExplorados) - contador_nodos_enviados)
 
         # Obtener los nodos para esta iteración
-        nodos_enviados = nodosExploradosES[contador_nodos_enviados:contador_nodos_enviados + nodos_a_enviar]
+        nodos_enviados = nodosExplorados[contador_nodos_enviados:contador_nodos_enviados + nodos_a_enviar]
 
         # Agregar los nuevos nodos a la lista acumulativa
         nodos_acumulativos.extend(nodos_enviados)
@@ -87,4 +87,4 @@ def graficarPasoAPaso(nodosExploradosES, titulo):
         # Incrementar el contador de nodos enviados
         contador_nodos_enviados += nodos_a_enviar
 
-    graficaryMostrarArbol(nodosExploradosES, titulo, mostrarResultados=True)    
+    graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados=True)    

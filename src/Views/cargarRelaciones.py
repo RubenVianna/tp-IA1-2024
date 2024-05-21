@@ -1,16 +1,23 @@
-from Models.nodo import Nodo
 from Controllers.herustica import *
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QLineEdit, QRadioButton, QPushButton, QButtonGroup
-from PyQt5.QtGui import QIntValidator, QFont
+from Controllers.funciones import *
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton
+from PyQt5.QtGui import QStandardItem
+from PyQt5.QtGui import QFont
+from Controllers.graficos import graficarGrafo
+
+from Controllers.maximaPendiente import calcularMaximaPendiente
+from Controllers.graficos import graficarPasoAPaso
 
 class CargaRelaciones(QWidget):
     def __init__(self, nodos):
         super().__init__()
         self.setWindowTitle("Definir conexiones")
-        self.setGeometry(800, 200, 550, 300)
+        self.setGeometry(800, 200, 260, 300)
+        self.nodos = nodos
+        self.checkbox_dict = {}  # Diccionario para mapear ComboBoxes a CheckBoxes
 
         # Columnas y sus encabezados
-        headers = ["Nombre","Heuristica", "Conexiones"]
+        headers = ["Nombre","Conexiones"]
 
         layout = QVBoxLayout()
         self.tabla = QTableWidget()
@@ -20,7 +27,58 @@ class CargaRelaciones(QWidget):
 
         for i, nodo in enumerate(nodos):
             self.tabla.setItem(i, 0, QTableWidgetItem(nodo.nombre))
-            self.tabla.setItem(i, 1, QTableWidgetItem(str(nodo.heuristica)))
+            combo_box = CheckableComboBox()
+            self.checkbox_dict[i] = combo_box #Agrego al dicccionario
+            for opcion in nodos:
+                if opcion.nombre != nodos[i].nombre:
+                    item = QStandardItem(opcion.nombre)
+                    item.setFlags(Qt.ItemIsUserCheckable | Qt.ItemIsEnabled)
+                    item.setData(Qt.Unchecked, Qt.CheckStateRole)
+                    combo_box.model().appendRow(item)
+            self.tabla.setCellWidget(i, 1, combo_box)
+            combo_box.currentIndexChanged.connect(lambda index, row=i: self.update_checklist(row))
+
+        self.button = QPushButton("Continuar")
+        self.button.setFont(QFont("Arial", 10))
+        self.button.clicked.connect(self.verConexiones)
 
         layout.addWidget(self.tabla)
+        layout.addWidget(self.button) 
         self.setLayout(layout)
+
+    def update_checklist(self, row):
+        combo_box = self.checkbox_dict[row]  # Obtener ComboBox asociado a la fila
+        checked_items = combo_box.checkedItems()  # Obtener elementos seleccionados en el ComboBox
+        for i, nodo in enumerate(self.nodos):
+            checkbox = self.checkbox_dict[i]
+            checkbox.model().item(row).setCheckState(Qt.Checked if nodo.nombre in checked_items else Qt.Unchecked)
+            
+    def verConexiones(self):
+        self.cargar_conexiones()
+
+        # print('-----------------------------------------')
+        # for row in range(self.tabla.rowCount()):
+        #     nombre_celda = self.tabla.item(row, 0).text()
+        #     combo_box = self.checkbox_dict[row]  # Obtener ComboBox asociado a la fila
+        #     if combo_box:
+        #         checked_items = [combo_box.model().item(index).text() for index in range(combo_box.model().rowCount()) if combo_box.model().item(index).checkState() == Qt.Checked]
+        #         print(f"Elementos seleccionados en fila {nombre_celda}: {checked_items}")
+
+    def cargar_conexiones(self):
+        for row in range(self.tabla.rowCount()):
+            nombre_nodo = self.tabla.item(row, 0).text()  # Obtener el nombre del nodo en la fila actual
+            combo_box = self.tabla.cellWidget(row, 1)  # Obtener el ComboBox en la fila actual
+            conexiones_marcadas = [combo_box.model().item(index).text() for index in range(combo_box.model().rowCount()) if combo_box.model().item(index).checkState() == Qt.Checked]
+            for nodo in self.nodos:
+                if nodo.nombre == nombre_nodo:
+                   nodo.conexiones = [next((nodo for nodo in self.nodos if nodo.nombre == conexion), None) for conexion in conexiones_marcadas]
+        
+        print('--------------------------------------------------------')
+        for n in self.nodos:
+            print(n.nombre, n.heuristica, n.estadoI, n.conexiones)
+        
+        graficarGrafo(self.nodos)
+
+        # recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
+
+        # graficarPasoAPaso(nodosExploradosMP,'Arbol Maxima Pendiente')
