@@ -1,9 +1,12 @@
-from PyQt5.QtWidgets import  QVBoxLayout, QHBoxLayout, QWidget, QLabel
+from PyQt5.QtWidgets import  QVBoxLayout, QHBoxLayout, QWidget, QLabel, QPushButton
+from PyQt5.QtGui import QFont
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from networkx.drawing.nx_agraph import graphviz_layout
 from Controllers.graficos import *
 from Controllers.maximaPendiente import calcularMaximaPendiente
 from Controllers.escaladaSimple import calcularEscaladaSimple
+from Views.comparacionSoluciones import ComparacionSoluciones
 import networkx as nx
 
 class VistaSolucion(QWidget):
@@ -48,14 +51,22 @@ class VistaSolucion(QWidget):
 
         self.graficar_y_mostrar_arboles()
 
+        self.button = QPushButton("Ver Comparación")
+        self.button.setFont(QFont("Arial", 10))
+        self.button.clicked.connect(self.verConexiones)
+        mainLayout.addWidget(self.button)
         # Cuadro de texto para las referencias de colores (no editable)
         self.colorReferences = QLabel(self)
         self.colorReferences.setText("Refencias de colores:\nRojo = Inicio\nVerde = Final\nAmarillo = Mínimo Local")
         self.colorReferences.setStyleSheet("font-size: 10px; font-weight: bold;")
         mainLayout.addWidget(self.colorReferences)
+    
+    def verConexiones(self):
+        self.comparativa = ComparacionSoluciones(self.nodos)
+        self.comparativa.show()
 
     def graficar_y_mostrar_arboles(self):
-        escaladaSimple , nodosExploradosES = calcularEscaladaSimple(self.nodos)
+        escaladaSimple , nodosNoExploradosES, nodosExploradosES = calcularEscaladaSimple(self.nodos)
         arbol1, colors1, labels1= graficaryMostrarArbol(nodosExploradosES, "Arbol Escalada Simple", mostrarResultados=True)
         recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
         arbol2, colors2, labels2= graficaryMostrarArbol(nodosExploradosMP, "Arbol Maxima Pendiente", mostrarResultados=True)

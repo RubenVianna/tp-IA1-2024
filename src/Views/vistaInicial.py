@@ -1,17 +1,17 @@
-import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QLineEdit
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLineEdit
 from PyQt5.QtGui import QFont, QIntValidator
 from PyQt5.QtCore import pyqtSignal
-from Controllers.logicaNodos import definirNodos
+from Controllers.logicaNodos import *
 from Views.cargaCoordenadas import CargaCoordenadas
+from Views.vistaGrafo import VistaGrafo
 from Controllers.logicaNodos import definirNodos
 
 class CargaNodos(QWidget):
     cantidadNodos = pyqtSignal(object)  # Definir la señal a nivel de clase
 
-    def __init__(self):
+    def __init__(self,opcion):
         super().__init__()
-
+        self.opcion = str(opcion)
         enteros = QIntValidator(1,20)
 
         self.setWindowTitle("Ingrese la cantidad de nodos")
@@ -28,8 +28,16 @@ class CargaNodos(QWidget):
 
     def enviarCantidadNodos(self):
         valor = self.input_text.text()  # Obtener el valor del campo de texto
-        nodos = definirNodos(valor)
-        self.cantidadNodos.emit(nodos)
+        if(self.opcion == 'carga'):
+            nodos = definirNodos(valor)
+            self.hide()
+            self.cargacoordenadas = CargaCoordenadas(nodos)
+            self.cargacoordenadas.show()
+        else:
+            nodos = generarAleatorios(valor)
+            #self.hide()
+            self.vistaGrafo = VistaGrafo(nodos)
+            self.vistaGrafo.show()
     
 
 class Inicio(QWidget):
@@ -40,22 +48,16 @@ class Inicio(QWidget):
         layout = QVBoxLayout()
         self.button = QPushButton("Cargar Datos")
         self.button.setFont(QFont("Arial", 10))
-        self.button.clicked.connect(self.cargarCantidadNodos)
+        self.button.clicked.connect(lambda: self.avanzarVista('carga'))
         layout.addWidget(self.button)
 
         self.button2 = QPushButton("Generar Datos Aleatorios")
         self.button2.setFont(QFont("Arial", 10))  
-       # self.button2.clicked.connect(self.abrir_segunda_vista)
+        self.button2.clicked.connect(lambda: self.avanzarVista('aleatorio'))
         layout.addWidget(self.button2)
         self.setLayout(layout)
 
-    def cargarCantidadNodos(self):
-        self.hide()
-        self.cargarNodos = CargaNodos()
-        self.cargarNodos.cantidadNodos.connect(self.mostrarCargaCoordenadas)  # Conectar la señal
-        self.cargarNodos.show()
-
-    def mostrarCargaCoordenadas(self, nodos):
-        self.cargarNodos.close()
-        self.ventanaCoordenadas = CargaCoordenadas(nodos)
-        self.ventanaCoordenadas.show()
+    def avanzarVista(self,opcion):
+            self.hide()
+            self.cargarNodos = CargaNodos(opcion)
+            self.cargarNodos.show()

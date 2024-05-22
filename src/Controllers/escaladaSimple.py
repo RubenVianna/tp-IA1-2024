@@ -1,208 +1,96 @@
-# def exploracion(nodo, nodosNoExplorados):
+def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUNCION RECURSIVA
     
-#     nodosNoExploradosLocal = nodosNoExplorados.copy()
-#     nodo.conexiones.sort(key=lambda nodo: nodo.nombre)
-#     nodoActual = nodo
-#     conexionesNoExploradas = [nodo for nodo in nodoActual.conexiones if nodo in nodosNoExplorados]
-    
-#     print('Comienza el algoritmo, nodoActual:',nodoActual.nombre,'y sus conexiones son: ')
-#     for nodi in nodoActual.conexiones:
-#         print(nodi.nombre) 
-
-#     print('Y los nodos no explorados aun son:')
-#     for nodito in nodosNoExploradosLocal:
-#         print(nodito.nombre)
-
-#     print('Por lo tanto se itera unicamente sobre los nodos: ')
-#     for nodin in conexionesNoExploradas:
-#         print(nodin.nombre)
+    nodosNoExploradosLocal = nodosNoExplorados.copy() # Copia local para evitar problemas con la recursividad.
+    caminoSolucionLocal = caminoSolucion.copy()
+    nodosRecorridosLocal = nodosRecorridos.copy()
 
 
-# # ----------------------------------------------------------- CICLO RECURSIVO ----------------------------------------------------------------------
-
-#     for nodoCandidato in conexionesNoExploradas:
-#         print('Evaluando la conexion: ',nodoCandidato.nombre)
-#         if nodoCandidato.estadoF == 'F':
-#             resultado = 'Nodo objetivo alcanzado' + nodoCandidato.nombre
-#             return resultado
-        
-#         print('El nodo:',nodoCandidato.nombre,' no es final. Sigue...')
-#         print('El ultimo nodo de las conexiones es:',nodoActual.conexiones[-1].nombre )
-#         if nodoCandidato.heuristica < nodoActual.heuristica:
-#             print('Evaluacion de heuristica verdadera - El nodo: ',nodoCandidato.nombre, 'mejora la heuristica del NodoActual')
-#             nodosNoExploradosLocal.remove(nodoCandidato)
-#             nodoActual = nodoCandidato
-#             resultado = exploracion(nodoActual, nodosNoExploradosLocal)
-#             break
-#         elif nodoCandidato == conexionesNoExploradas[-1]:
-#             print('Se llego al final de las conexiones para el nodo',nodoActual.nombre)
-#             resultado = 'Encontrado un minimo local, nodo:' + nodoActual.nombre
-#             return resultado
-#         nodosNoExploradosLocal.remove(nodoCandidato)
-
-    
-#     return resultado
-            
-# def escaladaSimple(nodos):
-#     nodosNoExplorados = nodos.copy()
-#     nodosNoExplorados.sort(key = lambda nodo: nodo.nombre)
-    
-#     for nodo in nodosNoExplorados:
-#         if nodo.estadoI == 'I':
-#             nodoActual = nodo
-#             nodosNoExplorados.remove(nodo)
-
-#     return (exploracion(nodoActual, nodosNoExplorados))
-#-------------------------------------------------------------------------------------------------
-
-# def existe_nodo(lista, nombre):
-#     for nodo in lista:
-#         if nodo.nombre == nombre:
-#             return True
-#     return False
-
-# def calcularEscaladaSimple(nodos):
-#     nodosAlf = sorted(nodos, key=lambda x: x.nombre) #ordenamos alfabeticamente los nodos
-#     escaladaSimple = []
-#     nodosExplorados = []
-#     nodosOrdenados = []
-
-#     # se ordena el array de nodos recibido para comenzar a recorrer por el nodo Inicial
-#     for nodo in nodosAlf:
-#         if nodo.estadoI == 'I':
-#            nodoInicial = nodo
-#            nodosOrdenados.insert(0,nodoInicial)
-#         else:
-#             nodosOrdenados.append(nodo)
-
-#     for nodo in nodosOrdenados:
-#         print("la heuristica de", nodo.nombre, "es", nodo.heuristica)
-
-#     solucionActual = nodosOrdenados[0] #definimos al primer nodo como solucion actual antes de comenzar a recorrer los demas nodos
-#     nodosNoExplorados = nodosOrdenados.copy() #se hace una copia para no alterar el orden de los nodos cargados
-
-
-#     bandera = True
-#     while bandera == True:
-#         for nodoActual in nodosOrdenados:
-#             if solucionActual == nodoActual:
-#                 print("------------------------------------------------------------")
-#                 print("Analizando nodo:", nodoActual.nombre, "con padre:", nodoActual.padre)
-#                 escaladaSimple.append(nodoActual)
-#                 if not existe_nodo(nodosExplorados, nodoActual.nombre):
-#                     nodosExplorados.append(nodoActual)
-#                     if nodoActual.estadoI == 'I':
-#                         bandera = False
-#                 if nodoActual.estadoF == 'F':
-#                     solucionActual = nodoActual
-#                     bandera = False
-#                 else:
-#                     if nodoActual.conexiones != []:
-#                         for conexion in nodoActual.conexiones: #recorro las conexiones del nodo actual para ver que con que nodos tengo que comparar la heuristica
-#                             for nodoAux in nodosNoExplorados: #recorro el array de nodos no explorados
-#                                 if nodoAux.nombre == conexion.nombre: #controlo si el nodo del array de nodos no explorados es alguno los nodos conectados al nodo actual
-#                                     if not existe_nodo(nodosExplorados, nodoAux.nombre):
-#                                         nodoAux.padre = nodoActual.nombre
-#                                         nodosExplorados.append(nodoAux)
-#                                         print(nodoActual.nombre, nodoAux.nombre, nodoAux.heuristica)
-#                                         if nodoAux.heuristica < solucionActual.heuristica:
-#                                             print('la heuristica actual es:', solucionActual.heuristica)
-#                                             solucionActual = nodoAux
-#                                             if solucionActual.estadoF == None:
-#                                                 solucionActual.minLoc = "ML" 
-#                             break
-#                     else:
-#                         print("el nodo:",nodoActual.nombre, "no posee hijos")
-#                         solucionActual.minLoc = "ML"
-#                         break
-
-#     if solucionActual.minLoc == 'ML':
-#         print("la solucion es un Minimo Local:", solucionActual.nombre)
-#     else:
-#         print("la solucion es:", solucionActual.nombre)
-
-    
-#     print("---------------------recorrido------------------------------")
-#     for i in escaladaSimple:
-#         print(i.heuristica, i.nombre)
-#     print("------------------------------------------------------------")
-
-#     for e in nodosExplorados:
-#         print(e.nombre)
-
-#     return escaladaSimple, nodosExplorados
-
-def exploracion(nodo, nodosNoExplorados, nodosRecorridos):
-    nodosNoExploradosLocal = nodosNoExplorados.copy()
     nodo.conexiones.sort(key=lambda nodo: nodo.nombre)
     nodoActual = nodo
-    conexionesNoExploradas = [nodo for nodo in nodoActual.conexiones if nodo in nodosNoExploradosLocal]
-
-    caminoSolucion = [nodoActual]
-
-    if nodoActual.estadoI == 'I':
-        nodosRecorridos.append(nodoActual)
-        nodosNoExploradosLocal.remove(nodoActual)
-
-
-    print('Comienza el algoritmo, nodoActual:', nodoActual.nombre, 'y sus conexiones son: ')
-    for nodi in nodoActual.conexiones:
-        print(nodi.nombre)
-
-    print('Y los nodos no explorados aun son:')
-    for nodito in nodosNoExploradosLocal:
-        print(nodito.nombre)
-
-    print('Por lo tanto se itera unicamente sobre los nodos: ')
-    for nodin in conexionesNoExploradas:
-        print(nodin.nombre)
+    conexionesNoExploradas = [nodo for nodo in nodoActual.conexiones if nodo in nodosNoExplorados] 
+    # Lista de las conexiones de cada nodo solo si estas ya no fueron exploradas.
     
-    if len(conexionesNoExploradas) == 0 and nodoActual.estadoF != 'F':
-            nodoActual.minLoc = 'ML'
-            print('Se llego a un mínimo local:', nodoActual.nombre)
+    caminoSolucionLocal.append(nodoActual)
+    print('[---------------------------- FUNCION RECURSIVA ----------------------------] ')
 
+    print('nodoActual:',nodoActual.nombre,'y sus conexiones son: ', end = ' ')
+    for nodi in nodoActual.conexiones:
+        print(nodi.nombre, end = ', ')
+    print() # Salto de linea. 
 
-    # ----------------------------------------------------------- CICLO RECURSIVO ----------------------------------------------------------------------
+    print('Y los nodos no explorados aun son: ', end = ' ')
+    for nodito in nodosNoExploradosLocal:
+        print(nodito.nombre, end = ',')
+    print() # Salto de linea. 
+
+    print('Por lo tanto se itera unicamente sobre los nodos: ', end = ' ')
+    for nodin in conexionesNoExploradas:
+        print(nodin.nombre, end = ', ')
+
+    print('El camino solucion hasta ahora es: ', end = ' ')
+    for nodin in caminoSolucionLocal:
+        print(nodo.nombre, end = ', ')
+
+# ----------------------------------------------------------- CICLO RECURSIVO ----------------------------------------------------------------------
+    
+    if nodoActual.estadoF == 'F':
+        print('Nodo objetivo alcanzado: ' + nodoActual.nombre)
+        caminoSolucionLocal.append(nodoActual)
+        nodosRecorridosLocal.append(nodoActual)
+
+        return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
+
     for nodoCandidato in conexionesNoExploradas:
-        print('Evaluando la conexion: ', nodoCandidato.nombre)
+        print('Evaluando la conexion: ',nodoCandidato.nombre)
         if nodoCandidato.estadoF == 'F':
-            print('Nodo objetivo alcanzado:', nodoCandidato.nombre)
-            nodoCandidato.padre = nodoActual.nombre
-            caminoSolucion.append(nodoCandidato)
-            nodosRecorridos.append(nodoCandidato)
-            return caminoSolucion, nodosRecorridos
-        
-        print('El nodo:', nodoCandidato.nombre, ' no es final. Sigue...')
-        nodoCandidato.padre = nodoActual.nombre
-        nodosRecorridos.append(nodoCandidato)
-        if nodoCandidato.heuristica < nodoActual.heuristica:
-            print('Evaluacion de heuristica verdadera - El nodo: ', nodoCandidato.nombre, 'mejora la heuristica del NodoActual')
+            print('Nodo objetivo alcanzado: ' + nodoCandidato.nombre)
+            caminoSolucionLocal.append(nodoCandidato)
             nodosNoExploradosLocal.remove(nodoCandidato)
+            nodoCandidato.padre = nodoActual.nombre
+            nodosRecorridosLocal.append(nodoCandidato)
+
+            return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
+        
+        print('El nodo:',nodoCandidato.nombre,' no es final. Sigue...')
+        print('El ultimo nodo de las conexiones es: ', nodoActual.conexiones[-1].nombre)
+        
+        nodoCandidato.padre = nodoActual.nombre
+        nodosRecorridosLocal.append(nodoCandidato)
+        if nodoCandidato.heuristica < nodoActual.heuristica:
+            print('Evaluacion de heuristica verdadera - El nodo: ',nodoCandidato.nombre, 'mejora la heuristica del nodo ', nodoActual.nombre)
             nodoActual = nodoCandidato
-            subcamino, subrecorridos = exploracion(nodoActual, nodosNoExploradosLocal, nodosRecorridos)
-            caminoSolucion.extend(subcamino)
-            return caminoSolucion, subrecorridos
+            nodosNoExploradosLocal.remove(nodoCandidato)
+
+            return exploracion(nodoActual, nodosNoExploradosLocal, caminoSolucionLocal, nodosRecorridosLocal)
+        
         elif nodoCandidato == conexionesNoExploradas[-1]:
+            print('Se llego al final de las conexiones para el nodo ',nodoActual.nombre)
+            print('Encontrado un minimo local, nodo:' + nodoActual.nombre)
+            nodosNoExploradosLocal.remove(nodoCandidato)
             nodoActual.minLoc = 'ML'
-            print('Se llego a un mínimo local:', nodoActual.nombre)
-      
-    print('Se llego al final de las conexiones para el nodo', nodoActual.nombre)
-
-    return caminoSolucion, nodosRecorridos
-
+            nodoCandidato.padre = nodoActual.nombre
+            nodosRecorridosLocal.append(nodoCandidato)
+            'Encontrado un minimo local, nodo:' + nodoActual.nombre
+            break   
+        
+        nodosNoExploradosLocal.remove(nodoCandidato)
+    
+    return caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal #Return de la funcion exploracion
+                   
 def calcularEscaladaSimple(nodos):
-    nodosNoExplorados = sorted(nodos, key=lambda nodo: nodo.nombre)
+    nodosNoExplorados = nodos.copy()
+    nodosNoExplorados.sort(key = lambda nodo: nodo.nombre)
+    caminoSolucion = []
 
     for nodo in nodosNoExplorados:
         if nodo.estadoI == 'I':
             nodoActual = nodo
             nodosNoExplorados.remove(nodo)
-            nodosNoExplorados.insert(0, nodoActual)
-            break
-        
-         # Imprimimos la heurística de cada nodo
-    for nodo in nodosNoExplorados:
-        print("La heurística de", nodo.nombre, "es", nodo.heuristica)
+    nodosRecorridos = [nodoActual]
+    print('------------------------ Inicio de la funcion escaladaSimple -------------------------')
 
-    caminoSolucion, nodosRecorridos = exploracion(nodoActual, nodosNoExplorados, [])
-    return caminoSolucion, nodosRecorridos
+    caminoSolucion, nodosNoExplorados, nodosRecorridos = exploracion(nodoActual, nodosNoExplorados, [], nodosRecorridos)
+
+    print('------------------------ Fin de la funcion escaladaSimple -------------------------')
+    
+    return caminoSolucion, nodosNoExplorados, nodosRecorridos

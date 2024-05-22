@@ -1,7 +1,4 @@
-from networkx.drawing.nx_agraph import graphviz_layout
 import networkx as nx
-import matplotlib.pyplot as plt
-from PyQt5.QtWidgets import QMessageBox
 
 def graficarGrafo(nodos):
     G = nx.Graph()
@@ -19,17 +16,16 @@ def graficarGrafo(nodos):
     
     colors = []
     for node in G.nodes():
-        if G.nodes[node]['estadoI'] == 'I':
-            colors.append('red')
-        elif G.nodes[node]['estadoF'] == 'F':
+        if G.nodes[node]['estadoF'] == 'F':
             colors.append('green')
+        elif G.nodes[node]['estadoI'] == 'I':
+            colors.append('red')
         else:
             colors.append('skyblue')
     # Mostrar el grafo
 
     return G, colors
 
-#Funcion que nos crea el grafo ordenado usando graphviz
 def graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados):
         
         G = nx.DiGraph()
@@ -41,12 +37,12 @@ def graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados):
         if mostrarResultados:
             colors = []
             for node in G.nodes():
-                if G.nodes[node]['minLoc'] == 'ML':
-                    colors.append('yellow')
+                if G.nodes[node]['estadoF'] == 'F':
+                    colors.append('green')
                 elif G.nodes[node]['estadoI'] == 'I':
                     colors.append('red')
-                elif G.nodes[node]['estadoF'] == 'F':
-                    colors.append('green')
+                elif G.nodes[node]['minLoc'] == 'ML':
+                    colors.append('yellow')
                 else:
                     colors.append('skyblue')
 
