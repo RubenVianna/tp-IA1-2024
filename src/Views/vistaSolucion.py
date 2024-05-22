@@ -24,25 +24,41 @@ class VistaSolucion(QWidget):
         self.titleLabel.setStyleSheet("font-size: 18px; font-weight: bold;")
         mainLayout.addWidget(self.titleLabel)
 
-        # Layout para contener los dos canvas
-        canvasLayout = QHBoxLayout()
-        mainLayout.addLayout(canvasLayout)
+        # Layout para los dos árboles
+        treesLayout = QHBoxLayout()
+        mainLayout.addLayout(treesLayout)
 
-        # Canvas para mostrar el primer árbol
+        # Layout para el primer árbol con título
+        tree1Layout = QVBoxLayout()
+        self.tree1Title = QLabel("Solución con Escalada Simple", self)
+        self.tree1Title.setStyleSheet("font-size: 16px; font-weight: bold;")
+        tree1Layout.addWidget(self.tree1Title)
         self.canvas1 = ArbolCanvas(self, width=5, height=4, dpi=100)
-        canvasLayout.addWidget(self.canvas1)
+        tree1Layout.addWidget(self.canvas1)
+        treesLayout.addLayout(tree1Layout)
 
-        # Canvas para mostrar el segundo árbol
+        # Layout para el segundo árbol con título
+        tree2Layout = QVBoxLayout()
+        self.tree2Title = QLabel("Solución con Máxima Pendiente", self)
+        self.tree2Title.setStyleSheet("font-size: 16px; font-weight: bold;")
+        tree2Layout.addWidget(self.tree2Title)
         self.canvas2 = ArbolCanvas(self, width=5, height=4, dpi=100)
-        canvasLayout.addWidget(self.canvas2)
+        tree2Layout.addWidget(self.canvas2)
+        treesLayout.addLayout(tree2Layout)
 
         self.graficar_y_mostrar_arboles()
 
+        # Cuadro de texto para las referencias de colores (no editable)
+        self.colorReferences = QLabel(self)
+        self.colorReferences.setText("Refencias de colores:\nRojo = Inicio\nVerde = Final\nAmarillo = Mínimo Local")
+        self.colorReferences.setStyleSheet("font-size: 10px; font-weight: bold;")
+        mainLayout.addWidget(self.colorReferences)
+
     def graficar_y_mostrar_arboles(self):
-        recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
-        arbol1, colors1, labels1= graficaryMostrarArbol(nodosExploradosMP, "Arbol Maxima Pendiente", mostrarResultados=True)
         escaladaSimple , nodosExploradosES = calcularEscaladaSimple(self.nodos)
-        arbol2, colors2, labels2= graficaryMostrarArbol(nodosExploradosES, "Arbol Escalada Simple", mostrarResultados=True)
+        arbol1, colors1, labels1= graficaryMostrarArbol(nodosExploradosES, "Arbol Escalada Simple", mostrarResultados=True)
+        recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
+        arbol2, colors2, labels2= graficaryMostrarArbol(nodosExploradosMP, "Arbol Maxima Pendiente", mostrarResultados=True)
         self.canvas1.plot(arbol1, colors1, labels1)
         self.canvas2.plot(arbol2, colors2, labels2)
 
