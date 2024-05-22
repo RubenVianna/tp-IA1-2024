@@ -1,12 +1,9 @@
 from Controllers.herustica import *
 from Controllers.funciones import *
+from Views.vistaGrafo import VistaGrafo
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton
 from PyQt5.QtGui import QStandardItem
 from PyQt5.QtGui import QFont
-from Controllers.graficos import graficarGrafo
-
-from Controllers.maximaPendiente import calcularMaximaPendiente
-from Controllers.graficos import graficarPasoAPaso
 
 class CargaRelaciones(QWidget):
     def __init__(self, nodos):
@@ -54,17 +51,6 @@ class CargaRelaciones(QWidget):
             checkbox.model().item(row).setCheckState(Qt.Checked if nodo.nombre in checked_items else Qt.Unchecked)
             
     def verConexiones(self):
-        self.cargar_conexiones()
-
-        # print('-----------------------------------------')
-        # for row in range(self.tabla.rowCount()):
-        #     nombre_celda = self.tabla.item(row, 0).text()
-        #     combo_box = self.checkbox_dict[row]  # Obtener ComboBox asociado a la fila
-        #     if combo_box:
-        #         checked_items = [combo_box.model().item(index).text() for index in range(combo_box.model().rowCount()) if combo_box.model().item(index).checkState() == Qt.Checked]
-        #         print(f"Elementos seleccionados en fila {nombre_celda}: {checked_items}")
-
-    def cargar_conexiones(self):
         for row in range(self.tabla.rowCount()):
             nombre_nodo = self.tabla.item(row, 0).text()  # Obtener el nombre del nodo en la fila actual
             combo_box = self.tabla.cellWidget(row, 1)  # Obtener el ComboBox en la fila actual
@@ -73,12 +59,12 @@ class CargaRelaciones(QWidget):
                 if nodo.nombre == nombre_nodo:
                    nodo.conexiones = [next((nodo for nodo in self.nodos if nodo.nombre == conexion), None) for conexion in conexiones_marcadas]
         
-        print('--------------------------------------------------------')
-        for n in self.nodos:
-            print(n.nombre, n.heuristica, n.estadoI, n.conexiones)
+        #self.hide()
+        self.vistaGrafo = VistaGrafo(self.nodos)
+        self.vistaGrafo.show()
         
-        graficarGrafo(self.nodos)
+        #graficarGrafo(self.nodos)
 
         # recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
 
-        # graficarPasoAPaso(nodosExploradosMP,'Arbol Maxima Pendiente')
+        # graficarPasoAPasoUser(nodosExploradosMP,'Arbol Maxima Pendiente')

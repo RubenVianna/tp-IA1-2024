@@ -2,7 +2,6 @@ from Models.nodo import Nodo
 from Views.cargarRelaciones import CargaRelaciones
 from Controllers.herustica import *
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QLineEdit, QRadioButton, QPushButton, QButtonGroup
-from PyQt5 import Qt
 from PyQt5.QtGui import QIntValidator, QFont
 
 class CargaCoordenadas(QWidget):
@@ -127,4 +126,6 @@ class CargaCoordenadas(QWidget):
                 nodos[i].heuristica = heuristica
             i= i+ 1
 
-        self.abrir_cargar_relaciones_signal.emit(nodos)
+        self.hide()
+        self.cargaRelaciones = CargaRelaciones(nodos)
+        self.cargaRelaciones.show()

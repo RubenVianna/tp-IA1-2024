@@ -97,7 +97,7 @@ from Models.nodo import Nodo
 
 # graficarPasoAPaso(nodosExploradosES,'Arbol Escalada Simple')
 
-#graficarPasoAPaso(nodosExploradosMP,'Arbol Maxima Pendiente')
+# graficarPasoAPaso(nodosExploradosMP,'Arbol Maxima Pendiente')
 
 #------------------ ARBOL-------------------------------------
 
