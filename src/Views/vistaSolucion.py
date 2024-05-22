@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QHBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QFormLayout
+from PyQt5.QtWidgets import  QVBoxLayout, QHBoxLayout, QWidget, QLabel
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from Controllers.graficos import *
@@ -73,9 +73,5 @@ class ArbolCanvas(FigureCanvas):
     def plot(self, G, colors, labels):
         self.axes.clear()
         pos = graphviz_layout(G, prog='dot')  # Usar 'dot' para un layout jerárquico
-
-        plt.figure(figsize=(10, 7))
-
-        nx.draw(G, pos, ax=self.axes, with_labels=True, node_color=colors, edge_color='gray')
-        nx.draw_networkx_labels(G, pos, labels, font_size=10)
-        self.draw()
+        nx.draw(G, pos,ax=self.axes, with_labels=False, node_color=colors, node_size=600, edge_color='gray')
+        nx.draw_networkx_labels(G, pos, labels, font_size=10, font_weight='bold', ax=self.axes)
