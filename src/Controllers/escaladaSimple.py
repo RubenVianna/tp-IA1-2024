@@ -1,3 +1,5 @@
+import time
+
 def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUNCION RECURSIVA
     
     nodosNoExploradosLocal = nodosNoExplorados.copy() # Copia local para evitar problemas con la recursividad.
@@ -9,41 +11,18 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
     nodoActual = nodo
     conexionesNoExploradas = [nodo for nodo in nodoActual.conexiones if nodo in nodosNoExplorados] 
     # Lista de las conexiones de cada nodo solo si estas ya no fueron exploradas.
-    
     caminoSolucionLocal.append(nodoActual)
-    print('[---------------------------- FUNCION RECURSIVA ----------------------------] ')
-
-    print('nodoActual:',nodoActual.nombre,'y sus conexiones son: ', end = ' ')
-    for nodi in nodoActual.conexiones:
-        print(nodi.nombre, end = ', ')
-    print() # Salto de linea. 
-
-    print('Y los nodos no explorados aun son: ', end = ' ')
-    for nodito in nodosNoExploradosLocal:
-        print(nodito.nombre, end = ',')
-    print() # Salto de linea. 
-
-    print('Por lo tanto se itera unicamente sobre los nodos: ', end = ' ')
-    for nodin in conexionesNoExploradas:
-        print(nodin.nombre, end = ', ')
-
-    print('El camino solucion hasta ahora es: ', end = ' ')
-    for nodin in caminoSolucionLocal:
-        print(nodo.nombre, end = ', ')
 
 # ----------------------------------------------------------- CICLO RECURSIVO ----------------------------------------------------------------------
     
     if nodoActual.estadoF == 'F':
-        print('Nodo objetivo alcanzado: ' + nodoActual.nombre)
         caminoSolucionLocal.append(nodoActual)
         nodosRecorridosLocal.append(nodoActual)
 
         return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
 
     for nodoCandidato in conexionesNoExploradas:
-        print('Evaluando la conexion: ',nodoCandidato.nombre)
         if nodoCandidato.estadoF == 'F':
-            print('Nodo objetivo alcanzado: ' + nodoCandidato.nombre)
             caminoSolucionLocal.append(nodoCandidato)
             nodosNoExploradosLocal.remove(nodoCandidato)
             nodoCandidato.padre = nodoActual.nombre
@@ -51,11 +30,7 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
 
             return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
         
-        print('El nodo:',nodoCandidato.nombre,' no es final. Sigue...')
-        print('El ultimo nodo de las conexiones es: ', nodoActual.conexiones[-1].nombre)
-        
         if nodoCandidato.heuristica < nodoActual.heuristica:
-            print('Evaluacion de heuristica verdadera - El nodo: ',nodoCandidato.nombre, 'mejora la heuristica del nodo ', nodoActual.nombre)
             nodoCandidato.padre = nodoActual.nombre
             nodosRecorridosLocal.append(nodoCandidato)
             nodosNoExploradosLocal.remove(nodoCandidato)
@@ -64,13 +39,10 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
             return exploracion(nodoActual, nodosNoExploradosLocal, caminoSolucionLocal, nodosRecorridosLocal)
         
         elif nodoCandidato == conexionesNoExploradas[-1]:
-            print('Se llego al final de las conexiones para el nodo ',nodoActual.nombre)
-            print('Encontrado un minimo local, nodo:' + nodoActual.nombre)
             nodosNoExploradosLocal.remove(nodoCandidato)
             nodoActual.minLoc = 'ML'
             nodoCandidato.padre = nodoActual.nombre
             nodosRecorridosLocal.append(nodoCandidato)
-            'Encontrado un minimo local, nodo:' + nodoActual.nombre
             break   
         
         nodoCandidato.padre = nodoActual.nombre
@@ -80,7 +52,13 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
     return caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal #Return de la funcion exploracion
                    
 def calcularEscaladaSimple(nodos):
+    print('                           Inicio del algoritmo Escalada Simple                           ')
+    print('')
+
+    tiempoInicial = time.time()
+    
     nodosNoExplorados = nodos.copy()
+    cantidadNodos = len(nodos)
     nodosNoExplorados.sort(key = lambda nodo: nodo.nombre)
     caminoSolucion = []
 
@@ -89,12 +67,34 @@ def calcularEscaladaSimple(nodos):
             nodoActual = nodo
             nodosNoExplorados.remove(nodo)
     nodosRecorridos = [nodoActual]
-    print('------------------------ Inicio de la funcion escaladaSimple -------------------------')
-
     caminoSolucion, nodosNoExplorados, nodosRecorridos = exploracion(nodoActual, nodosNoExplorados, [], nodosRecorridos)
+    tiempoFinal = time.time()
+    tiempoTotal = tiempoFinal - tiempoInicial
 
-    print('------------------------ Fin de la funcion escaladaSimple -------------------------')
-    
-    
+    if caminoSolucion[-1].estadoF == 'F':
+        nodoObjetivoAlcanzado = 'SI'
+        minimoLocalAlcanzado = 'NO'
+    else:
+        nodoObjetivoAlcanzado = 'NO'
+        minimoLocalAlcanzado = 'SI'
+
+    print('Cantidad de nodos en el espacio de busqueda: ',cantidadNodos)
+    print('Cantidad de nodos explorados:                ',len(nodosRecorridos))
+    print('Cantidad de nodos no explorados:             ',len(nodosNoExplorados))
+    print('Nodo objetivo alcanzado:                     ',nodoObjetivoAlcanzado)
+    if nodoObjetivoAlcanzado == 'SI':
+        print('Nombre del nodo objetivo:                    ',caminoSolucion[-1].nombre)
+    print('Minimo local alcanzado:                      ',minimoLocalAlcanzado)
+    if minimoLocalAlcanzado == 'SI':
+        print('Nombre del minimo local:                     ',caminoSolucion[-1].nombre)
+    print('Cantidad de iteraciones:                     ',len(caminoSolucion))
+    print('Camino solucion:                             ', end = ' ')
+    for nodo in caminoSolucion:
+        print(nodo.nombre, end = ' ')
+    print() # Salto de linea. 
+    print('Tiempo total de ejecucion:                   ', tiempoTotal)
+
+    print('')
+    print('                           Fin del algoritmo Escalada Simple                           ')
 
     return caminoSolucion, nodosNoExplorados, nodosRecorridos

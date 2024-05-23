@@ -133,7 +133,7 @@ class CargaCoordenadas(QWidget):
             i= i+ 1
 
         self.hide()
-        self.cargaRelaciones = CargaRelaciones(nodos)
+        self.cargaRelaciones = CargaRelaciones(nodos,self)
         self.cargaRelaciones.show()
 
     def volverAtras(self):

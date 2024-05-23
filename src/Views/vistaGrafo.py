@@ -83,8 +83,8 @@ class VistaGrafo(QWidget):
 
     def verSolucion(self):
         # Lógica para ver la solución completa del grafo
-       # self.hide()
-        self.vistaGrafo = VistaSolucion(self.nodos)
+        self.hide()
+        self.vistaGrafo = VistaSolucion(self.nodos,self)
         self.vistaGrafo.show()
 
     def volverAtras(self):

@@ -11,9 +11,10 @@ import networkx as nx
 
 class VistaSolucion(QWidget):
 
-    def __init__(self, nodos):
+    def __init__(self, nodos, vistaAnterior):
         super().__init__()
         self.nodos = nodos
+        self.vistaAnterior = vistaAnterior
         self.initUI()
 
     def initUI(self):
@@ -55,10 +56,14 @@ class VistaSolucion(QWidget):
         self.button.setFont(QFont("Arial", 10))
         self.button.clicked.connect(self.verConexiones)
         mainLayout.addWidget(self.button)
+        self.atras = QPushButton("Atrás")
+        self.atras.setFont(QFont("Arial", 10))
+        self.atras.clicked.connect(self.volverAtras)
+        mainLayout.addWidget(self.atras)
         # Cuadro de texto para las referencias de colores (no editable)
         self.colorReferences = QLabel(self)
         self.colorReferences.setText("Refencias de colores:\nRojo = Inicio\nVerde = Final\nAmarillo = Mínimo Local")
-        self.colorReferences.setStyleSheet("font-size: 10px; font-weight: bold;")
+        self.colorReferences.setStyleSheet("font-size: 14px; font-weight: bold;")
         mainLayout.addWidget(self.colorReferences)
     
     def verConexiones(self):
@@ -72,6 +77,10 @@ class VistaSolucion(QWidget):
         arbol2, colors2, labels2= graficaryMostrarArbol(nodosExploradosMP, "Arbol Maxima Pendiente", mostrarResultados=True)
         self.canvas1.plot(arbol1, colors1, labels1)
         self.canvas2.plot(arbol2, colors2, labels2)
+    
+    def volverAtras(self):
+        self.close()
+        self.vistaAnterior.show()
 
 
 class ArbolCanvas(FigureCanvas):

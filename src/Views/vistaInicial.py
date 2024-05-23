@@ -12,7 +12,7 @@ class CargaNodos(QWidget):
     def __init__(self,opcion):
         super().__init__()
         self.opcion = str(opcion)
-        enteros = QIntValidator(1,20)
+        enteros = QIntValidator(1,1000)
 
         self.setWindowTitle("Ingrese la cantidad de nodos")
         self.setFixedSize(400, 100)
