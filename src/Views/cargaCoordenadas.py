@@ -6,9 +6,10 @@ from PyQt5.QtGui import QIntValidator, QFont
 
 class CargaCoordenadas(QWidget):
 
-    def __init__(self, nodos):
+    def __init__(self, nodos,vistaAnterior):
         super().__init__()
         self.setWindowTitle("Listado de Nodos")
+        self.vistaAnterior = vistaAnterior
         self.setGeometry(800, 200, 550, 300)
         
         # Columnas y sus encabezados
@@ -54,9 +55,14 @@ class CargaCoordenadas(QWidget):
         self.button2.setFont(QFont("Arial", 10))
         self.button2.clicked.connect(self.calcularManhattan)
 
+        self.button3 = QPushButton("Atrás")
+        self.button3.setFont(QFont("Arial", 10))
+        self.button3.clicked.connect(self.volverAtras)
+
         layout.addWidget(self.tabla)
         layout.addWidget(self.button)  
         layout.addWidget(self.button2)
+        layout.addWidget(self.button3)
         self.setLayout(layout)
     
     def calcularDLR(self):
@@ -91,7 +97,7 @@ class CargaCoordenadas(QWidget):
             i= i+ 1
 
         self.hide()
-        self.cargaRelaciones = CargaRelaciones(nodos)
+        self.cargaRelaciones = CargaRelaciones(nodos,self)
         self.cargaRelaciones.show()
 
         
@@ -129,3 +135,7 @@ class CargaCoordenadas(QWidget):
         self.hide()
         self.cargaRelaciones = CargaRelaciones(nodos)
         self.cargaRelaciones.show()
+
+    def volverAtras(self):
+        self.close()
+        self.vistaAnterior.show()

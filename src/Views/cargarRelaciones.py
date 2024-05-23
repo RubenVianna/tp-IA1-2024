@@ -6,10 +6,11 @@ from PyQt5.QtGui import QStandardItem
 from PyQt5.QtGui import QFont
 
 class CargaRelaciones(QWidget):
-    def __init__(self, nodos):
+    def __init__(self, nodos, vistaAnterior):
         super().__init__()
         self.setWindowTitle("Definir conexiones")
         self.setGeometry(800, 200, 260, 300)
+        self.vistaAnterior = vistaAnterior
         self.nodos = nodos
         self.checkbox_dict = {}  # Diccionario para mapear ComboBoxes a CheckBoxes
 
@@ -39,8 +40,13 @@ class CargaRelaciones(QWidget):
         self.button.setFont(QFont("Arial", 10))
         self.button.clicked.connect(self.verConexiones)
 
+        self.atras = QPushButton("Atrás")
+        self.atras.setFont(QFont("Arial", 10))
+        self.atras.clicked.connect(self.volverAtras)
+
         layout.addWidget(self.tabla)
-        layout.addWidget(self.button) 
+        layout.addWidget(self.button)
+        layout.addWidget(self.atras) 
         self.setLayout(layout)
 
     def update_checklist(self, row):
@@ -59,12 +65,10 @@ class CargaRelaciones(QWidget):
                 if nodo.nombre == nombre_nodo:
                    nodo.conexiones = [next((nodo for nodo in self.nodos if nodo.nombre == conexion), None) for conexion in conexiones_marcadas]
         
-        #self.hide()
-        self.vistaGrafo = VistaGrafo(self.nodos)
+        self.hide()
+        self.vistaGrafo = VistaGrafo(self.nodos,self)
         self.vistaGrafo.show()
-        
-        #graficarGrafo(self.nodos)
-
-        # recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
-
-        # graficarPasoAPasoUser(nodosExploradosMP,'Arbol Maxima Pendiente')
+    
+    def volverAtras(self):
+        self.close()
+        self.vistaAnterior.show()

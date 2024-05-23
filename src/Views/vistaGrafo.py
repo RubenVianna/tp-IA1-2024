@@ -6,9 +6,10 @@ from matplotlib.figure import Figure
 import networkx as nx
 
 class VistaGrafo(QWidget):
-    def __init__(self, nodos):
+    def __init__(self, nodos, vistaAnterior):
         super().__init__()
         self.nodos = nodos
+        self.vistaAnterior = vistaAnterior
         self.heuristics = {}  # Diccionario para guardar los QLineEdit
         self.initUI()
 
@@ -55,12 +56,15 @@ class VistaGrafo(QWidget):
         buttonLayout = QHBoxLayout()
         self.stepButton = QPushButton('Generar Paso a Paso', self)
         self.solutionButton = QPushButton('Ver Solución', self)
+        self.atras = QPushButton("Atrás")
         buttonLayout.addWidget(self.stepButton)
         buttonLayout.addWidget(self.solutionButton)
+        buttonLayout.addWidget(self.atras)
         heuristicsLayout.addLayout(buttonLayout)
 
         contentLayout.addLayout(heuristicsLayout)
 
+        self.atras.clicked.connect(self.volverAtras)
         self.stepButton.clicked.connect(self.verPasoAPaso)
         self.solutionButton.clicked.connect(self.verSolucion)
 
@@ -82,6 +86,10 @@ class VistaGrafo(QWidget):
        # self.hide()
         self.vistaGrafo = VistaSolucion(self.nodos)
         self.vistaGrafo.show()
+
+    def volverAtras(self):
+        self.close()
+        self.vistaAnterior.show()
 
 
 class GrafoCanvas(FigureCanvas):

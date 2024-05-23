@@ -54,12 +54,12 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
         print('El nodo:',nodoCandidato.nombre,' no es final. Sigue...')
         print('El ultimo nodo de las conexiones es: ', nodoActual.conexiones[-1].nombre)
         
-        nodoCandidato.padre = nodoActual.nombre
-        nodosRecorridosLocal.append(nodoCandidato)
         if nodoCandidato.heuristica < nodoActual.heuristica:
             print('Evaluacion de heuristica verdadera - El nodo: ',nodoCandidato.nombre, 'mejora la heuristica del nodo ', nodoActual.nombre)
-            nodoActual = nodoCandidato
+            nodoCandidato.padre = nodoActual.nombre
+            nodosRecorridosLocal.append(nodoCandidato)
             nodosNoExploradosLocal.remove(nodoCandidato)
+            nodoActual = nodoCandidato
 
             return exploracion(nodoActual, nodosNoExploradosLocal, caminoSolucionLocal, nodosRecorridosLocal)
         
@@ -73,6 +73,8 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
             'Encontrado un minimo local, nodo:' + nodoActual.nombre
             break   
         
+        nodoCandidato.padre = nodoActual.nombre
+        nodosRecorridosLocal.append(nodoCandidato)
         nodosNoExploradosLocal.remove(nodoCandidato)
     
     return caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal #Return de la funcion exploracion
@@ -93,4 +95,6 @@ def calcularEscaladaSimple(nodos):
 
     print('------------------------ Fin de la funcion escaladaSimple -------------------------')
     
+    
+
     return caminoSolucion, nodosNoExplorados, nodosRecorridos

@@ -23,7 +23,11 @@ class CargaNodos(QWidget):
         self.button = QPushButton("Aceptar")
         self.button.setFont(QFont("Arial", 10))
         self.button.clicked.connect(self.enviarCantidadNodos)
+        self.atras = QPushButton("Atrás")
+        self.atras.setFont(QFont("Arial", 10))
+        self.atras.clicked.connect(self.volverAtras)
         layout.addWidget(self.button)
+        layout.addWidget(self.atras)
         self.setLayout(layout)
 
     def enviarCantidadNodos(self):
@@ -31,14 +35,18 @@ class CargaNodos(QWidget):
         if(self.opcion == 'carga'):
             nodos = definirNodos(valor)
             self.hide()
-            self.cargacoordenadas = CargaCoordenadas(nodos)
+            self.cargacoordenadas = CargaCoordenadas(nodos, self)
             self.cargacoordenadas.show()
         else:
             nodos = generarAleatorios(valor)
-            #self.hide()
-            self.vistaGrafo = VistaGrafo(nodos)
+            self.hide()
+            self.vistaGrafo = VistaGrafo(nodos,self)
             self.vistaGrafo.show()
     
+    def volverAtras(self):
+        self.close()
+        self.inicio = Inicio()
+        self.inicio.show()
 
 class Inicio(QWidget):
     def __init__(self):
@@ -58,6 +66,6 @@ class Inicio(QWidget):
         self.setLayout(layout)
 
     def avanzarVista(self,opcion):
-            self.hide()
+            self.close()
             self.cargarNodos = CargaNodos(opcion)
             self.cargarNodos.show()

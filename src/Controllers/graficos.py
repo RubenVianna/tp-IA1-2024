@@ -39,10 +39,10 @@ def graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados):
             for node in G.nodes():
                 if G.nodes[node]['estadoF'] == 'F':
                     colors.append('green')
-                elif G.nodes[node]['estadoI'] == 'I':
-                    colors.append('red')
                 elif G.nodes[node]['minLoc'] == 'ML':
                     colors.append('yellow')
+                elif G.nodes[node]['estadoI'] == 'I':
+                    colors.append('red')
                 else:
                     colors.append('skyblue')
 

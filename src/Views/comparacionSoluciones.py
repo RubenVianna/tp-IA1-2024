@@ -52,8 +52,8 @@ class ComparacionSoluciones(QWidget):
 
     def generar_salida(self):
         sys.stdout = self.emitting_stream1
-        escaladaSimple , nodosNoExploradosES, nodosExploradosES = calcularEscaladaSimple(self.nodos)
+        calcularEscaladaSimple(self.nodos)
    
         sys.stdout = self.emitting_stream2
-        recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
+        calcularMaximaPendiente(self.nodos)
         sys.stdout = sys.__stdout__  # Restaurar stdout original
