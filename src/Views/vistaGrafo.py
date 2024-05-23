@@ -1,5 +1,6 @@
 from Controllers.graficos import graficarGrafo
 from Views.vistaSolucion import VistaSolucion
+from Views.pasoAPaso import GraficacionPasoAPaso
 from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QWidget, QLabel, QLineEdit, QPushButton, QFormLayout
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -75,11 +76,9 @@ class VistaGrafo(QWidget):
         self.canvas.plot(G, colors)
     
     def verPasoAPaso(self):
-        # Lógica para generar el grafo paso a paso
-        print("Generar Paso a Paso")
-        for nodo in self.nodos:
-            heuristica = self.heuristics[nodo.nombre].text()
-            print(f"{nodo.nombre}: {heuristica}")
+        self.hide()
+        self.vistaGrafo = GraficacionPasoAPaso(self.nodos,self)
+        self.vistaGrafo.show()
 
     def verSolucion(self):
         # Lógica para ver la solución completa del grafo

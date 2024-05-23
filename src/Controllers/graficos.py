@@ -29,13 +29,13 @@ def graficarGrafo(nodos):
 def graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados):
         
         G = nx.DiGraph()
+        colors = []
         for nodo in nodosExplorados:
             G.add_node(nodo.nombre, heuristica=nodo.heuristica, minLoc=nodo.minLoc, estadoF=nodo.estadoF, estadoI=nodo.estadoI)
             if nodo.padre:
                 G.add_edge(nodo.padre, nodo.nombre)
         
         if mostrarResultados:
-            colors = []
             for node in G.nodes():
                 if G.nodes[node]['estadoF'] == 'F':
                     colors.append('green')
@@ -50,34 +50,34 @@ def graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados):
 
         return G, colors , labels
 
-def graficarPasoAPaso(nodosExplorados, titulo):
+# def graficarPasoAPaso(nodosExplorados, titulo):
     
-    # Inicializar una lista vacía para almacenar los nodos acumulativos
-    nodos_acumulativos = []
+#     # Inicializar una lista vacía para almacenar los nodos acumulativos
+#     nodos_acumulativos = []
 
-    # Inicializar un contador para rastrear cuántos nodos hemos enviado
-    contador_nodos_enviados = 0
+#     # Inicializar un contador para rastrear cuántos nodos hemos enviado
+#     contador_nodos_enviados = 0
 
-    # Definir cuántos nodos enviar en cada iteración
-    nodos_por_iteracion = 1
+#     # Definir cuántos nodos enviar en cada iteración
+#     nodos_por_iteracion = 1
 
-    # Mientras haya nodos por enviar
-    while contador_nodos_enviados < len(nodosExplorados):
-        # Determinar cuántos nodos enviar en esta iteración
-        nodos_a_enviar = min(nodos_por_iteracion, len(nodosExplorados) - contador_nodos_enviados)
+#     # Mientras haya nodos por enviar
+#     while contador_nodos_enviados < len(nodosExplorados):
+#         # Determinar cuántos nodos enviar en esta iteración
+#         nodos_a_enviar = min(nodos_por_iteracion, len(nodosExplorados) - contador_nodos_enviados)
 
-        # Obtener los nodos para esta iteración
-        nodos_enviados = nodosExplorados[contador_nodos_enviados:contador_nodos_enviados + nodos_a_enviar]
+#         # Obtener los nodos para esta iteración
+#         nodos_enviados = nodosExplorados[contador_nodos_enviados:contador_nodos_enviados + nodos_a_enviar]
 
-        # Agregar los nuevos nodos a la lista acumulativa
-        nodos_acumulativos.extend(nodos_enviados)
+#         # Agregar los nuevos nodos a la lista acumulativa
+#         nodos_acumulativos.extend(nodos_enviados)
 
-        graficaryMostrarArbol(nodos_acumulativos, titulo, mostrarResultados=False)
+#         graficaryMostrarArbol(nodos_acumulativos, titulo, mostrarResultados=False)
 
-        # Incrementar el contador de nodos enviados
-        contador_nodos_enviados += nodos_a_enviar
+#         # Incrementar el contador de nodos enviados
+#         contador_nodos_enviados += nodos_a_enviar
 
-    graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados=True)    
+#     graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados=True)    
 
 # def graficarPasoAPasoUser(nodosExplorados, titulo):
     
