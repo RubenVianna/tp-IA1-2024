@@ -50,7 +50,7 @@ class VistaSolucion(QWidget):
         tree2Layout.addWidget(self.canvas2)
         treesLayout.addLayout(tree2Layout)
 
-        self.graficar_y_mostrar_arboles()
+        self.graficarArboles()
 
         # Cuadro de texto para las referencias de colores (no editable)
         self.colorReferences = QLabel(self)
@@ -76,7 +76,7 @@ class VistaSolucion(QWidget):
         self.comparativa = ComparacionSoluciones(self.nodos)
         self.comparativa.show()
 
-    def graficar_y_mostrar_arboles(self):
+    def graficarArboles(self):
         nodosExploradosES = calcularEscaladaSimple(self.nodos)
         arbol1, colors1, labels1= graficaryMostrarArbol(nodosExploradosES, "Arbol Escalada Simple", mostrarResultados=True)
         nodosExploradosMP = calcularMaximaPendiente(self.nodos)

@@ -26,20 +26,23 @@ class CargaCoordenadas(QWidget):
         self.buttonGroupInitial = QButtonGroup(self)
         self.buttonGroupFinal = QButtonGroup(self)
 
-        enteros = QIntValidator(-10, 20)
+        enteros = QIntValidator(-20, 2) #limitado para aceptar valores entre -20 y 20
 
         for i, nodo in enumerate(nodos):
             nombre = QTableWidgetItem(nodo.nombre)
             nombre.setFlags(nombre.flags() & ~Qt.ItemIsEditable)  #Hago no editable el nombre
             self.tabla.setItem(i, 0, nombre)
+
             self.input_x = QLineEdit()
             self.input_x.setValidator(enteros)
             self.input_x.setText("")
             self.tabla.setCellWidget(i, 1,  self.input_x)
+
             self.input_y = QLineEdit()
             self.input_y.setValidator(enteros)
             self.input_y.setText("")
             self.tabla.setCellWidget(i, 2,  self.input_y)
+
             radio_initial = QRadioButton()
             self.buttonGroupInitial.addButton(radio_initial, i)
             if nodo.estadoI:

@@ -76,29 +76,29 @@ class GraficacionPasoAPaso(QWidget):
         self.atras.clicked.connect(self.volverAtras)
         buttonsLayout.addWidget(self.atras)
 
-        self.graficar_y_mostrar_arboles()
+        self.graficarArboles()
 
     def siguientePasoES(self):
         if self.contador_es < len(self.nodosExploradosES):
             self.contador_es += 1
-            self.graficar_y_mostrar_arbol_escalada_simple()
+            self.graficarArbolEscaladaSimple()
 
     def siguientePasoMP(self):
         if self.contador_mp < len(self.nodosExploradosMP):
             self.contador_mp += 1
-            self.graficar_y_mostrar_arbol_maxima_pendiente()
+            self.graficarArbolMaximaPendiente()
 
-    def graficar_y_mostrar_arboles(self):
+    def graficarArboles(self):
         self.nodosExploradosES = calcularEscaladaSimple(self.nodos)
         self.nodosExploradosMP = calcularMaximaPendiente(self.nodos)
 
         self.contador_es = 0
         self.contador_mp = 0
 
-        self.graficar_y_mostrar_arbol_escalada_simple()
-        self.graficar_y_mostrar_arbol_maxima_pendiente()
+        self.graficarArbolEscaladaSimple()
+        self.graficarArbolMaximaPendiente()
 
-    def graficar_y_mostrar_arbol_escalada_simple(self):
+    def graficarArbolEscaladaSimple(self):
         if self.contador_es > 0:
             nodos_mostrar = self.nodosExploradosES[:self.contador_es]
         else:
@@ -108,7 +108,7 @@ class GraficacionPasoAPaso(QWidget):
         arbol, colors, labels = graficaryMostrarArbol(nodos_mostrar, "Arbol Escalada Simple", mostrarResultados=final_iteration)
         self.canvas1.plot(arbol, colors, labels)
 
-    def graficar_y_mostrar_arbol_maxima_pendiente(self):
+    def graficarArbolMaximaPendiente(self):
         if self.contador_mp > 0:
             nodos_mostrar = self.nodosExploradosMP[:self.contador_mp]
         else:
