@@ -10,13 +10,15 @@ def definirNodos(cantNodos):
     nombres = string.ascii_uppercase  # Obtener las letras del alfabeto en mayúsuclas
     i=0
     asignadoÑ = False
-    while i < cantNodos-1:
+    while i < cantNodos:
         if i == 14 and not asignadoÑ:
             nombre = 'Ñ'
             asignadoÑ = True
+        elif asignadoÑ:
+            nombre = nombres[i-1 % len(nombres)]
         else:
             nombre = nombres[i % len(nombres)]
-            i =i+1  # Usar módulo para ciclar a través del alfabeto
+        i =i+1  # Usar módulo para ciclar a través del alfabeto
 
         nodo = Nodo(nombre)
         nodos.append(nodo)
