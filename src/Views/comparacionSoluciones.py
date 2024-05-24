@@ -1,7 +1,7 @@
 import sys
 from Controllers.escaladaSimple import calcularEscaladaSimple
-from PyQt5.QtGui import QFont
 from Controllers.maximaPendiente import calcularMaximaPendiente
+from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QTextEdit
 
 class EmittingStream:

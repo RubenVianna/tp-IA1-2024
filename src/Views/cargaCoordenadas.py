@@ -1,6 +1,7 @@
 from Models.nodo import Nodo
 from Views.cargarRelaciones import CargaRelaciones
-from Controllers.herustica import *
+from Controllers.herustica import distanciaLineaRecta
+from Controllers.herustica import distanciaManhattan
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QLineEdit, QRadioButton, QPushButton, QButtonGroup, QMessageBox
 from PyQt5.QtGui import QIntValidator, QFont
 from PyQt5.QtCore import Qt

@@ -10,7 +10,7 @@ def definirNodos(cantNodos):
     nombres = string.ascii_uppercase  # Obtener las letras del alfabeto en mayúsuclas
     i=0
     asignadoÑ = False
-    while i < cantNodos:
+    while i < cantNodos-1:
         if i == 14 and not asignadoÑ:
             nombre = 'Ñ'
             asignadoÑ = True

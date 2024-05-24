@@ -3,7 +3,7 @@ from PyQt5.QtGui import QFont
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from networkx.drawing.nx_agraph import graphviz_layout
-from Controllers.graficos import *
+from Controllers.graficos import graficaryMostrarArbol
 from Controllers.maximaPendiente import calcularMaximaPendiente
 from Controllers.escaladaSimple import calcularEscaladaSimple
 from Views.comparacionSoluciones import ComparacionSoluciones

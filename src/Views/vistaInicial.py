@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLineEdit, QMessageBox
 from PyQt5.QtGui import QFont, QIntValidator
 from PyQt5.QtCore import pyqtSignal
-from Controllers.logicaNodos import *
+from Controllers.logicaNodos import generarAleatorios
 from Views.cargaCoordenadas import CargaCoordenadas
 from Views.vistaGrafo import VistaGrafo
 from Controllers.logicaNodos import definirNodos
@@ -40,7 +40,7 @@ class CargaNodos(QWidget):
         valor = self.input_text.text()  # Obtener el valor del campo de texto
         if valor.strip():
             valor = int(valor)
-            if valor > 0 and valor < 27:
+            if valor > 0 and valor < 28:
                 if(self.opcion == 'carga'):
                     nodos = definirNodos(valor)
                     self.hide()
@@ -55,7 +55,7 @@ class CargaNodos(QWidget):
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Information)
                 msg.setWindowTitle("Atencion!")
-                msg.setText("La cantidad de nodos debe ser entre 1 y 26")
+                msg.setText("La cantidad de nodos debe ser entre 1 y 27")
                 msg.setStandardButtons(QMessageBox.Ok)
                 msg.exec_()
         else:

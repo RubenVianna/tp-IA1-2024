@@ -1,5 +1,4 @@
-from Controllers.herustica import *
-from Controllers.funciones import *
+from Controllers.funciones import CheckableComboBox
 from Views.vistaGrafo import VistaGrafo
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QPushButton
 from PyQt5.QtGui import QStandardItem
