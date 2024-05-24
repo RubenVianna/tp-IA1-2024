@@ -1,74 +1,116 @@
-def existe_nodo(lista, nombre):
-    for nodo in lista:
-        if nodo.nombre == nombre:
-            return True
-    return False
 
-def calcularMaximaPendiente(nodos):
-    nodosAlf = sorted(nodos, key=lambda x: x.nombre) #ordenamos alfabeticamente los nodos
-    recorridoMaxPendiente = []
-    nodosExplorados = []
-    nodosOrdenados = []
+def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUNCION RECURSIVA
+    
+    nodosNoExploradosLocal = nodosNoExplorados.copy() # Copia local para evitar problemas con la recursividad.
+    caminoSolucionLocal = caminoSolucion.copy()
+    nodosRecorridosLocal = nodosRecorridos.copy()
 
-    # se ordena el array de nodos recibido para comenzar a recorrer por el nodo Inicial
-    for nodo in nodosAlf:
-        if nodo.estadoI == 'I':
-           nodoInicial = nodo
-           nodosOrdenados.insert(0,nodoInicial)
+    nodo.conexiones.sort(key=lambda nodo: nodo.nombre)
+    nodoActual = nodo
+    conexionesNoExploradas = [nodo for nodo in nodoActual.conexiones if nodo in nodosNoExplorados] 
+    caminoSolucionLocal.append(nodoActual)
+    heuristicaMejorada = 0
+   # print('Inicio de la exploracion, evaluando el nodo:',nodoActual.nombre)
+    
+    if nodoActual.estadoF == 'F':
+       # print('El nodo',nodoActual.nombre,' no es final...')
+        return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
+    
+   # print('Las conexiones no exploradas del nodo',nodoActual.nombre,'son:', end = ' ')
+    # for nodo in conexionesNoExploradas:
+    #     print(nodo.nombre, end = ' ')
+
+    for nodo in conexionesNoExploradas:
+        nodo.padre = nodoActual.nombre
+
+
+# ----------------------------------------------------------- CICLO RECURSIVO ----------------------------------------------------------------------
+
+    for nodoCandidato in conexionesNoExploradas:
+       # print('Evaluando la conexion:',nodoCandidato.nombre)
+        if nodoCandidato.estadoF == 'F':
+            caminoSolucionLocal.append(nodoCandidato)
+            nodosNoExploradosLocal.remove(nodoCandidato)
+            nodosRecorridosLocal.append(nodoCandidato)
+
+
+            return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
+        
+        if nodoCandidato.heuristica < nodoActual.heuristica:
+           # print('El nodo candidato',nodoCandidato.nombre,'mejora la heuristica del nodo actual.')
+          #  print('La heuristica:',nodoCandidato.heuristica,'del nodo',nodoCandidato.nombre,'es mejor que la heuristica',nodoActual.heuristica,'del nodo actual',nodoActual.nombre)
+            nodosRecorridosLocal.append(nodoCandidato)
+            nodosNoExploradosLocal.remove(nodoCandidato)
+            nodoActual = nodoCandidato
+         #   print('El nodo actual ahora es:',nodoActual.nombre)
+            heuristicaMejorada = 1
+
         else:
-            nodosOrdenados.append(nodo)
-
-    for nodo in nodosOrdenados:
-        print("la heuristica de", nodo.nombre, "es", nodo.heuristica)
-
-    solucionActual = nodosOrdenados[0] #definimos al primer nodo como solucion actual antes de comenzar a recorrer los demas nodos
-    nodosNoExplorados = nodosOrdenados.copy() #se hace una copia para no alterar el orden de los nodos cargados
-
-    bandera = True
+            nodosRecorridosLocal.append(nodoCandidato)
+            nodosNoExploradosLocal.remove(nodoCandidato)
+        
+        if nodoCandidato == conexionesNoExploradas[-1] and heuristicaMejorada == 1:
+           # print('Se ha llegado al final de las conexiones sin encontrarse el nodo objetivo aun.')
+            return exploracion(nodoActual, nodosNoExploradosLocal, caminoSolucionLocal, nodosRecorridosLocal)
+        
+    # print()
+    # print('Fin del algoritmo de exploracion')
+    # print()
+    return caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal #Return de la funcion exploracion
+                   
+def calcularMaximaPendiente(nodos):
+    titulo = 'Inicio del algoritmo Máxima Pendiente'
+    print(f"{titulo.center(80)}\n")
+    print('')
     
-    while bandera == True:
-        for nodoActual in nodosOrdenados:
-            if solucionActual == nodoActual:
-                print("------------------------------------------------------------")
-                print("Analizando nodo:", nodoActual.nombre, "con padre:", nodoActual.padre)
-                recorridoMaxPendiente.append(nodoActual)
-                if not existe_nodo(nodosExplorados, nodoActual.nombre):
-                    nodosExplorados.append(nodoActual)
-                if nodoActual.estadoF == 'F':
-                    solucionActual = nodoActual
-                    bandera = False
-                else:
-                    if nodoActual.conexiones != []:
-                        for conexion in nodoActual.conexiones: #recorro las conexiones del nodo actual para ver que con que nodos tengo que comparar la heuristica
-                            nodosConectados = [] #defino un array para ir cargando la heuristica de los nodos que estan relacionados
-                            for nodoAux in nodosNoExplorados: #recorro el array de nodos no explorados
-                                if nodoAux.nombre == conexion: #controlo si el nodo del array de nodos no explorados es alguno los nodos conectados al nodo actual
-                                    if not existe_nodo(nodosExplorados, nodoAux.nombre):
-                                        nodoAux.padre = nodoActual.nombre
-                                        nodosExplorados.append(nodoAux)
-                                        nodosConectados.append(nodoAux) #agrego el nodo al array de nodos conectados para evaluar despues si su heuristica es mejor que el de la solucion actual
-                            for nC in nodosConectados:
-                                print(nodoActual.nombre, nC.nombre, nC.heuristica)
-                                if nC.heuristica < solucionActual.heuristica:
-                                    solucionActual = nC
-                                    if solucionActual.estadoF == None:
-                                        solucionActual.minLoc = "ML"
-                                        bandera = False  
-                    else:
-                        print("el nodo:",nodoActual.nombre, "no posee hijos")
-                        solucionActual.minLoc = "ML"
-                        break
+    nodosNoExplorados = nodos.copy()
+    cantidadNodos = len(nodos)
+    nodosNoExplorados.sort(key = lambda nodo: nodo.nombre)
+    caminoSolucion = []
 
-    if solucionActual.minLoc == 'ML':
-        print("la solucion es un Minimo Local:", solucionActual.nombre)
+    for nodo in nodos:
+        if nodo.estadoF == 'F':
+            nodoObjetivo= nodo.nombre
+
+    for nodo in nodosNoExplorados:
+        if nodo.estadoI == 'I':
+            nodoActual = nodo
+            nodosNoExplorados.remove(nodo)
+    nodosRecorridos = [nodoActual]
+    caminoSolucion, nodosNoExplorados, nodosRecorridos = exploracion(nodoActual, nodosNoExplorados, [], nodosRecorridos)
+
+    if caminoSolucion[-1].estadoF == 'F':
+        nodoObjetivoAlcanzado = 'SI'
+        minimoLocalAlcanzado = 'NO'
     else:
-        print("la solucion es:", solucionActual.nombre)
+        nodoObjetivoAlcanzado = 'NO'
+        minimoLocalAlcanzado = 'SI'
+        caminoSolucion[-1].minLoc = 'ML'
 
-    
-    print("---------------------recorrido------------------------------")
-    for i in recorridoMaxPendiente:
-        print(i.heuristica, i.nombre)
-    print("------------------------------------------------------------")
+    print('Cantidad de nodos en el espacio de busqueda: ',cantidadNodos)
+    print('--------------------------------------------------------------------')
+    print('Cantidad de nodos explorados:                ',len(nodosRecorridos))
+    print('--------------------------------------------------------------------')
+    print('Cantidad de nodos no explorados:             ',len(nodosNoExplorados))
+    print('--------------------------------------------------------------------')
+    print('Nodo objetivo alcanzado:                     ',nodoObjetivoAlcanzado)
+    print('--------------------------------------------------------------------')
+    print('Nombre del nodo objetivo:                    ',nodoObjetivo)
+    print('--------------------------------------------------------------------')
+    print('Minimo local alcanzado:                      ',minimoLocalAlcanzado)
+    print('--------------------------------------------------------------------')
+    if minimoLocalAlcanzado == 'SI':
+        print('Nombre del minimo local:                     ',caminoSolucion[-1].nombre)
+        print('--------------------------------------------------------------------')
+    print('Cantidad de iteraciones:                     ',len(caminoSolucion))
+    print('--------------------------------------------------------------------')
+    print('Camino solucion:                             ', end = ' ')
+    for nodo in caminoSolucion:
+        print(nodo.nombre, end = ' ')
+    print() # Salto de linea. 
+    print('--------------------------------------------------------------------')
 
-    for e in nodosExplorados:
-        print(e.nombre)
+    print('')
+    print('                           Fin del algoritmo Maxima Pendiente                           ')
+
+    return nodosRecorridos
