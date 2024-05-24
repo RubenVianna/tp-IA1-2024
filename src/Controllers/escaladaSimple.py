@@ -48,7 +48,7 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
     return caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal #Return de la funcion exploracion
                    
 def calcularEscaladaSimple(nodos):
-    titulo = 'Inicio del algoritmo Escalada Simple'
+    titulo = 'Algoritmo de Escalada Simple'
     print(f"{titulo.center(80)}\n")
     print('')
 
@@ -77,30 +77,27 @@ def calcularEscaladaSimple(nodos):
         minimoLocalAlcanzado = 'SI'
 
     print(f"{'Cantidad de nodos en el espacio de busqueda:':50} {cantidadNodos}")
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print(f"{'Cantidad de nodos explorados:':50} {len(nodosRecorridos)}")
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print(f"{'Cantidad de nodos no explorados:':50} {len(nodosNoExplorados)}")
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print(f"{'Nodo objetivo alcanzado:':50} {nodoObjetivoAlcanzado}")
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print(f"{'Nombre del nodo objetivo:':50} {nodoObjetivo}")
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print(f"{'Minimo local alcanzado:':50} {minimoLocalAlcanzado}")
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
 
     if minimoLocalAlcanzado == 'SI':
         print(f"{'Nombre del minimo local:':50} {caminoSolucion[-1].nombre}")
-        print('--------------------------------------------------------------------')
+        print('-----------------------------------------------------------------------------')
 
     print(f"{'Cantidad de iteraciones:':50} {len(caminoSolucion)}")
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
 
     camino_texto = ' -> '.join(nodo.nombre for nodo in caminoSolucion)
     print(f"{'Camino solucion:':50} {camino_texto}")
-    print('--------------------------------------------------------------------')
-
-    print(f"\n{'Fin del algoritmo Escalada Simple'.center(80)}")
-
+    print('-----------------------------------------------------------------------------')
 
     return nodosRecorridos

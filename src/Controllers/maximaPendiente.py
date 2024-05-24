@@ -59,7 +59,7 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
     return caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal #Return de la funcion exploracion
                    
 def calcularMaximaPendiente(nodos):
-    titulo = 'Inicio del algoritmo Máxima Pendiente'
+    titulo = 'Algoritmo de Máxima Pendiente'
     print(f"{titulo.center(80)}\n")
     print('')
     
@@ -88,28 +88,25 @@ def calcularMaximaPendiente(nodos):
         caminoSolucion[-1].minLoc = 'ML'
 
     print('Cantidad de nodos en el espacio de busqueda:    ',cantidadNodos)
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print('Cantidad de nodos explorados:                ',len(nodosRecorridos))
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print('Cantidad de nodos no explorados:             ',len(nodosNoExplorados))
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print('Nodo objetivo alcanzado:                     ',nodoObjetivoAlcanzado)
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print('Nombre del nodo objetivo:                    ',nodoObjetivo)
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     print('Minimo local alcanzado:                      ',minimoLocalAlcanzado)
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
     if minimoLocalAlcanzado == 'SI':
         print('Nombre del minimo local:                     ',caminoSolucion[-1].nombre)
-        print('--------------------------------------------------------------------')
+        print('-----------------------------------------------------------------------------')
     print('Cantidad de iteraciones:                     ',len(caminoSolucion))
-    print('--------------------------------------------------------------------')
+    print('-----------------------------------------------------------------------------')
 
     camino_texto = ' -> '.join(nodo.nombre for nodo in caminoSolucion)
     print(f"{'Camino solucion:':45} {camino_texto}")
-    print('--------------------------------------------------------------------')
-
-    print('')
-    print('                           Fin del algoritmo Maxima Pendiente                           ')
+    print('-----------------------------------------------------------------------------')
 
     return nodosRecorridos

@@ -20,7 +20,7 @@ class GraficacionPasoAPaso(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Visor de Árboles')
-        self.setGeometry(100, 100, 1000, 800)
+        self.setFixedSize(1000, 500)  # Establece el tamaño fijo de la ventana
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)

@@ -19,13 +19,14 @@ class VistaSolucion(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Visor de Árboles')
+        self.setFixedSize(1000, 500)  # Establece el tamaño fijo de la ventana
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
 
         # Título principal
         self.titleLabel = QLabel("Árboles Generados", self)
-        self.titleLabel.setStyleSheet("font-size: 18px; font-weight: bold;")
+        self.titleLabel.setStyleSheet("font-size: 16px; font-weight: bold;")
         mainLayout.addWidget(self.titleLabel)
 
         # Layout para los dos árboles

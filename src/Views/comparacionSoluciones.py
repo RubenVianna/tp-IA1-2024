@@ -1,5 +1,6 @@
 import sys
 from Controllers.escaladaSimple import calcularEscaladaSimple
+from PyQt5.QtGui import QFont
 from Controllers.maximaPendiente import calcularMaximaPendiente
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QTextEdit
 
@@ -31,11 +32,13 @@ class ComparacionSoluciones(QWidget):
         # Primer QTextEdit
         self.text_edit1 = QTextEdit(self)
         self.text_edit1.setReadOnly(True)
+        self.text_edit1.setFont(QFont('Arial', 9))
         text_layout.addWidget(self.text_edit1)
 
         # Segundo QTextEdit
         self.text_edit2 = QTextEdit(self)
         self.text_edit2.setReadOnly(True)
+        self.text_edit2.setFont(QFont('Arial', 9))
         text_layout.addWidget(self.text_edit2)
 
         layout.addLayout(text_layout)

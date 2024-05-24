@@ -22,7 +22,7 @@ class VistaGrafo(QWidget):
 
         # Título principal
         self.titleLabel = QLabel("Grafo Generado", self)
-        self.titleLabel.setStyleSheet("font-size: 18px; font-weight: bold;")
+        self.titleLabel.setStyleSheet("font-size: 16px; font-weight: bold;")
         mainLayout.addWidget(self.titleLabel)
 
         # Layout para el contenido principal (grafo y heurísticas)
