@@ -98,7 +98,7 @@ def calcularEscaladaSimple(nodos):
     print(f"{'Cantidad de iteraciones:':50} {len(caminoSolucion)}")
     print('--------------------------------------------------------------------')
 
-    camino_texto = ' '.join(nodo.nombre for nodo in caminoSolucion)
+    camino_texto = ' -> '.join(nodo.nombre for nodo in caminoSolucion)
     print(f"{'Camino solucion:':50} {camino_texto}")
     print('--------------------------------------------------------------------')
 

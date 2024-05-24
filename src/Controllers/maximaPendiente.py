@@ -87,7 +87,7 @@ def calcularMaximaPendiente(nodos):
         minimoLocalAlcanzado = 'SI'
         caminoSolucion[-1].minLoc = 'ML'
 
-    print('Cantidad de nodos en el espacio de busqueda: ',cantidadNodos)
+    print('Cantidad de nodos en el espacio de busqueda:    ',cantidadNodos)
     print('--------------------------------------------------------------------')
     print('Cantidad de nodos explorados:                ',len(nodosRecorridos))
     print('--------------------------------------------------------------------')
@@ -104,10 +104,9 @@ def calcularMaximaPendiente(nodos):
         print('--------------------------------------------------------------------')
     print('Cantidad de iteraciones:                     ',len(caminoSolucion))
     print('--------------------------------------------------------------------')
-    print('Camino solucion:                             ', end = ' ')
-    for nodo in caminoSolucion:
-        print(nodo.nombre, end = ' ')
-    print() # Salto de linea. 
+
+    camino_texto = ' -> '.join(nodo.nombre for nodo in caminoSolucion)
+    print(f"{'Camino solucion:':45} {camino_texto}")
     print('--------------------------------------------------------------------')
 
     print('')

@@ -27,8 +27,8 @@ def generarAleatorios(cantNodos):
     heuristica = random.randint(1,2)
 
     for nodo in nodos:
-        nodo.coordenada_x = random.randint(-10,20)
-        nodo.coordenada_y = random.randint(-10,20)
+        nodo.coordenada_x = random.randint(-20,20)
+        nodo.coordenada_y = random.randint(-20,20)
 
     for nodo in nodos:
         if heuristica == 1:
