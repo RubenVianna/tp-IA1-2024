@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLineEdit, QMessageBox
+from PyQt5.QtWidgets import QWidget, QPushButton, QHBoxLayout, QVBoxLayout, QLineEdit, QMessageBox
 from PyQt5.QtGui import QFont, QIntValidator
 from PyQt5.QtCore import pyqtSignal
 from Controllers.logicaNodos import *
@@ -20,14 +20,20 @@ class CargaNodos(QWidget):
         self.input_text = QLineEdit()
         self.input_text.setValidator(enteros)  # Aplicar el validador de enteros al QLineEdit
         layout.addWidget(self.input_text)
+
         self.button = QPushButton("Aceptar")
         self.button.setFont(QFont("Arial", 10))
         self.button.clicked.connect(self.enviarCantidadNodos)
+
         self.atras = QPushButton("Atrás")
         self.atras.setFont(QFont("Arial", 10))
         self.atras.clicked.connect(self.volverAtras)
-        layout.addWidget(self.button)
-        layout.addWidget(self.atras)
+
+        button_layout = QHBoxLayout()  # Crear un layout horizontal para los botones
+        button_layout.addWidget(self.button)
+        button_layout.addWidget(self.atras)
+        layout.addLayout(button_layout)
+
         self.setLayout(layout)
 
     def enviarCantidadNodos(self):
@@ -69,7 +75,7 @@ class Inicio(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Trabajo Integrador - Inteligencia Artificial 1")
-        self.setFixedSize(400, 200)
+        self.setFixedSize(400, 100)
         layout = QVBoxLayout()
         self.button = QPushButton("Cargar Datos")
         self.button.setFont(QFont("Arial", 10))

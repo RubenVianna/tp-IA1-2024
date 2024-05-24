@@ -4,6 +4,7 @@ from Views.vistaGrafo import VistaGrafo
 from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QPushButton
 from PyQt5.QtGui import QStandardItem
 from PyQt5.QtGui import QFont
+from PyQt5.QtCore import Qt
 
 class CargaRelaciones(QWidget):
     def __init__(self, nodos, vistaAnterior):
@@ -24,7 +25,9 @@ class CargaRelaciones(QWidget):
         self.tabla.setHorizontalHeaderLabels(headers)
 
         for i, nodo in enumerate(nodos):
-            self.tabla.setItem(i, 0, QTableWidgetItem(nodo.nombre))
+            nombre = QTableWidgetItem(nodo.nombre)
+            nombre.setFlags(nombre.flags() & ~Qt.ItemIsEditable)  
+            self.tabla.setItem(i, 0, nombre)
             combo_box = CheckableComboBox()
             self.checkbox_dict[i] = combo_box #Agrego al dicccionario
             for opcion in nodos:
@@ -36,6 +39,16 @@ class CargaRelaciones(QWidget):
             self.tabla.setCellWidget(i, 1, combo_box)
             combo_box.currentIndexChanged.connect(lambda index, row=i: self.update_checklist(row))
 
+        for i, nodo in enumerate(nodos):
+            combo_box = CheckableComboBox()
+            self.checkbox_dict[i] = combo_box  # Agregar al diccionario
+            for opcion in nodos:
+                if opcion.nombre != nodos[i].nombre:
+                    combo_box.addItem(opcion.nombre)
+                    # Conectar la señal stateChanged del item del checklist al método update_checklist
+                    combo_box.activated.connect(lambda index, row=i: self.update_checklist(row))
+            self.tabla.setCellWidget(i, 1, combo_box)
+        
         self.button = QPushButton("Continuar")
         self.button.setFont(QFont("Arial", 10))
         self.button.clicked.connect(self.verConexiones)
@@ -52,9 +65,22 @@ class CargaRelaciones(QWidget):
     def update_checklist(self, row):
         combo_box = self.checkbox_dict[row]  # Obtener ComboBox asociado a la fila
         checked_items = combo_box.checkedItems()  # Obtener elementos seleccionados en el ComboBox
+
         for i, nodo in enumerate(self.nodos):
-            checkbox = self.checkbox_dict[i]
-            checkbox.model().item(row).setCheckState(Qt.Checked if nodo.nombre in checked_items else Qt.Unchecked)
+            nodo_actual = self.tabla.item(i, 0).text()  # Obtener el nombre del nodo en la fila actual
+            checkbox = self.checkbox_dict[i]  # Obtener CheckBox asociado al nodo
+
+            # Verificar si el nodo actual está marcado en el ComboBox
+            if nodo_actual in checked_items:
+                # Marcar todas las opciones del checklist del nodo
+                for index in range(checkbox.count()):
+                    item = checkbox.itemAt(index)
+                    item.setCheckState(Qt.Checked)
+            else:
+                # Desmarcar todas las opciones del checklist del nodo
+                for index in range(checkbox.count()):
+                    item = checkbox.itemAt(index)
+                    item.setCheckState(Qt.Unchecked)
             
     def verConexiones(self):
         for row in range(self.tabla.rowCount()):

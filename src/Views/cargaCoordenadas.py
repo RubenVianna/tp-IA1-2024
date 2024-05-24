@@ -1,8 +1,10 @@
 from Models.nodo import Nodo
 from Views.cargarRelaciones import CargaRelaciones
 from Controllers.herustica import *
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QTableWidget, QTableWidgetItem, QLineEdit, QRadioButton, QPushButton, QButtonGroup
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTableWidget, QTableWidgetItem, QLineEdit, QRadioButton, QPushButton, QButtonGroup, QMessageBox
 from PyQt5.QtGui import QIntValidator, QFont
+from PyQt5.QtCore import Qt
+
 
 class CargaCoordenadas(QWidget):
 
@@ -27,7 +29,9 @@ class CargaCoordenadas(QWidget):
         enteros = QIntValidator(-10, 20)
 
         for i, nodo in enumerate(nodos):
-            self.tabla.setItem(i, 0, QTableWidgetItem(nodo.nombre))
+            nombre = QTableWidgetItem(nodo.nombre)
+            nombre.setFlags(nombre.flags() & ~Qt.ItemIsEditable)  #Hago no editable el nombre
+            self.tabla.setItem(i, 0, nombre)
             self.input_x = QLineEdit()
             self.input_x.setValidator(enteros)
             self.input_x.setText("")
@@ -47,25 +51,30 @@ class CargaCoordenadas(QWidget):
                 radio_final.setChecked(True)
             self.tabla.setCellWidget(i, 4, radio_final)
 
+        button_layout = QHBoxLayout()
+
         self.button = QPushButton("Calcular con Distancia Linea Recta")
         self.button.setFont(QFont("Arial", 10))
         self.button.clicked.connect(self.calcularDLR)
+        button_layout.addWidget(self.button)
 
         self.button2 = QPushButton("Calcular con Distancia de Manhattan")
         self.button2.setFont(QFont("Arial", 10))
         self.button2.clicked.connect(self.calcularManhattan)
+        button_layout.addWidget(self.button2) 
 
         self.button3 = QPushButton("Atrás")
         self.button3.setFont(QFont("Arial", 10))
         self.button3.clicked.connect(self.volverAtras)
+        button_layout.addWidget(self.button3)
 
         layout.addWidget(self.tabla)
-        layout.addWidget(self.button)  
-        layout.addWidget(self.button2)
-        layout.addWidget(self.button3)
+        layout.addLayout(button_layout)
         self.setLayout(layout)
     
     def calcularDLR(self):
+        if not self.validarCampos():
+            return
         nodos = []
         nodoFinal = None
         for row in range(self.tabla.rowCount()):
@@ -102,6 +111,9 @@ class CargaCoordenadas(QWidget):
 
         
     def calcularManhattan(self):
+        if not self.validarCampos():
+            return
+        
         nodos = []
         nodoFinal = None
         for row in range(self.tabla.rowCount()):
@@ -135,6 +147,25 @@ class CargaCoordenadas(QWidget):
         self.hide()
         self.cargaRelaciones = CargaRelaciones(nodos,self)
         self.cargaRelaciones.show()
+
+    def validarCampos(self):
+        estado_inicial_seleccionado = self.buttonGroupInitial.checkedButton() is not None
+        estado_final_seleccionado = self.buttonGroupFinal.checkedButton() is not None
+
+        if not estado_inicial_seleccionado or not estado_final_seleccionado:
+            QMessageBox.warning(self, "Advertencia", "Por favor, seleccione al menos un estado inicial y un estado final.")
+            return False
+
+        for row in range(self.tabla.rowCount()):
+            coordenada_x = self.tabla.cellWidget(row, 1).text()
+            coordenada_y = self.tabla.cellWidget(row, 2).text()
+
+            if not coordenada_x or not coordenada_y:
+                QMessageBox.warning(self, "Advertencia", "Por favor, complete todas las coordenadas.")
+                return False
+
+        return True
+
 
     def volverAtras(self):
         self.close()

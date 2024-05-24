@@ -39,6 +39,13 @@ class VistaGrafo(QWidget):
         # Layout para las heurísticas
         heuristicsLayout = QVBoxLayout()
 
+
+        # Cuadro de texto para las referencias de colores (no editable)
+        references = QLabel(self)
+        references.setText("Refencias de colores:\n\nRojo = Inicio\nVerde = Final\nAmarillo = Mínimo Local\n")
+        references.setStyleSheet("font-size: 12px; font-weight: bold;")
+        heuristicsLayout.addWidget(references)
+        
         # Título de heurísticas
         heuristicsTitle = QLabel("Heurísticas", self)
         heuristicsTitle.setStyleSheet("font-size: 16px; font-weight: bold;")
