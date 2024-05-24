@@ -62,7 +62,6 @@ class VistaGrafo(QWidget):
         buttonLayout.addWidget(self.solutionButton)
         buttonLayout.addWidget(self.atras)
         heuristicsLayout.addLayout(buttonLayout)
-
         contentLayout.addLayout(heuristicsLayout)
 
         self.atras.clicked.connect(self.volverAtras)

@@ -52,28 +52,34 @@ class VistaSolucion(QWidget):
 
         self.graficar_y_mostrar_arboles()
 
-        self.button = QPushButton("Ver Comparación")
-        self.button.setFont(QFont("Arial", 10))
-        self.button.clicked.connect(self.verConexiones)
-        mainLayout.addWidget(self.button)
-        self.atras = QPushButton("Atrás")
-        self.atras.setFont(QFont("Arial", 10))
-        self.atras.clicked.connect(self.volverAtras)
-        mainLayout.addWidget(self.atras)
         # Cuadro de texto para las referencias de colores (no editable)
         self.colorReferences = QLabel(self)
         self.colorReferences.setText("Refencias de colores:\nRojo = Inicio\nVerde = Final\nAmarillo = Mínimo Local")
         self.colorReferences.setStyleSheet("font-size: 14px; font-weight: bold;")
         mainLayout.addWidget(self.colorReferences)
+
+      # Layout para los botones
+        buttonsLayout = QHBoxLayout()
+        mainLayout.addLayout(buttonsLayout)
+
+        self.button = QPushButton("Ver Comparación")
+        self.button.setFont(QFont("Arial", 10))
+        self.button.clicked.connect(self.verConexiones)
+        buttonsLayout.addWidget(self.button)
+
+        self.atras = QPushButton("Atrás")
+        self.atras.setFont(QFont("Arial", 10))
+        self.atras.clicked.connect(self.volverAtras)
+        buttonsLayout.addWidget(self.atras)
     
     def verConexiones(self):
         self.comparativa = ComparacionSoluciones(self.nodos)
         self.comparativa.show()
 
     def graficar_y_mostrar_arboles(self):
-        escaladaSimple , nodosNoExploradosES, nodosExploradosES = calcularEscaladaSimple(self.nodos)
+        nodosExploradosES = calcularEscaladaSimple(self.nodos)
         arbol1, colors1, labels1= graficaryMostrarArbol(nodosExploradosES, "Arbol Escalada Simple", mostrarResultados=True)
-        recorridoMaximaPendiente, nodosExploradosMP = calcularMaximaPendiente(self.nodos)
+        nodosExploradosMP = calcularMaximaPendiente(self.nodos)
         arbol2, colors2, labels2= graficaryMostrarArbol(nodosExploradosMP, "Arbol Maxima Pendiente", mostrarResultados=True)
         self.canvas1.plot(arbol1, colors1, labels1)
         self.canvas2.plot(arbol2, colors2, labels2)

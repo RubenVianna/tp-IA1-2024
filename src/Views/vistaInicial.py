@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLineEdit
+from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLineEdit, QMessageBox
 from PyQt5.QtGui import QFont, QIntValidator
 from PyQt5.QtCore import pyqtSignal
 from Controllers.logicaNodos import *
@@ -32,17 +32,34 @@ class CargaNodos(QWidget):
 
     def enviarCantidadNodos(self):
         valor = self.input_text.text()  # Obtener el valor del campo de texto
-        if(self.opcion == 'carga'):
-            nodos = definirNodos(valor)
-            self.hide()
-            self.cargacoordenadas = CargaCoordenadas(nodos, self)
-            self.cargacoordenadas.show()
+        if valor.strip():
+            valor = int(valor)
+            if valor > 1 and valor < 27:
+                if(self.opcion == 'carga'):
+                    nodos = definirNodos(valor)
+                    self.hide()
+                    self.cargacoordenadas = CargaCoordenadas(nodos, self)
+                    self.cargacoordenadas.show()
+                else:
+                    nodos = generarAleatorios(valor)
+                    self.hide()
+                    self.vistaGrafo = VistaGrafo(nodos,self)
+                    self.vistaGrafo.show()
+            else:
+                msg = QMessageBox()
+                msg.setIcon(QMessageBox.Information)
+                msg.setWindowTitle("Atencion!")
+                msg.setText("La cantidad de nodos debe ser entre 2 y 26")
+                msg.setStandardButtons(QMessageBox.Ok)
+                msg.exec_()
         else:
-            nodos = generarAleatorios(valor)
-            self.hide()
-            self.vistaGrafo = VistaGrafo(nodos,self)
-            self.vistaGrafo.show()
-    
+            msg = QMessageBox()
+            msg.setIcon(QMessageBox.Information)
+            msg.setWindowTitle("Atencion!")
+            msg.setText("El campo no puede estar vacio.")
+            msg.setStandardButtons(QMessageBox.Ok)
+            msg.exec_()
+
     def volverAtras(self):
         self.close()
         self.inicio = Inicio()

@@ -52,25 +52,29 @@ class GraficacionPasoAPaso(QWidget):
         tree2Layout.addWidget(self.canvas2)
         treesLayout.addLayout(tree2Layout)
 
-        self.button_siguiente_es = QPushButton("Siguiente Escalada Simple")
-        self.button_siguiente_es.setFont(QFont("Arial", 10))
-        self.button_siguiente_es.clicked.connect(self.siguientePasoES)
-        mainLayout.addWidget(self.button_siguiente_es)
-
-        self.button_siguiente_mp = QPushButton("Siguiente Máxima Pendiente")
-        self.button_siguiente_mp.setFont(QFont("Arial", 10))
-        self.button_siguiente_mp.clicked.connect(self.siguientePasoMP)
-        mainLayout.addWidget(self.button_siguiente_mp)
-
-        self.atras = QPushButton("Atrás")
-        self.atras.setFont(QFont("Arial", 10))
-        self.atras.clicked.connect(self.volverAtras)
-        mainLayout.addWidget(self.atras)
-
         self.colorReferences = QLabel(self)
         self.colorReferences.setText("Referencias de colores:\nRojo = Inicio\nVerde = Final\nAmarillo = Mínimo Local")
         self.colorReferences.setStyleSheet("font-size: 14px; font-weight: bold;")
         mainLayout.addWidget(self.colorReferences)
+
+        # Layout para los botones
+        buttonsLayout = QHBoxLayout()
+        mainLayout.addLayout(buttonsLayout)
+
+        self.button_siguiente_es = QPushButton("Siguiente Escalada Simple")
+        self.button_siguiente_es.setFont(QFont("Arial", 10))
+        self.button_siguiente_es.clicked.connect(self.siguientePasoES)
+        buttonsLayout.addWidget(self.button_siguiente_es)
+
+        self.button_siguiente_mp = QPushButton("Siguiente Máxima Pendiente")
+        self.button_siguiente_mp.setFont(QFont("Arial", 10))
+        self.button_siguiente_mp.clicked.connect(self.siguientePasoMP)
+        buttonsLayout.addWidget(self.button_siguiente_mp)
+
+        self.atras = QPushButton("Atrás")
+        self.atras.setFont(QFont("Arial", 10))
+        self.atras.clicked.connect(self.volverAtras)
+        buttonsLayout.addWidget(self.atras)
 
         self.graficar_y_mostrar_arboles()
 
@@ -85,8 +89,8 @@ class GraficacionPasoAPaso(QWidget):
             self.graficar_y_mostrar_arbol_maxima_pendiente()
 
     def graficar_y_mostrar_arboles(self):
-        self.escaladaSimple , self.nodosNoExploradosES, self.nodosExploradosES = calcularEscaladaSimple(self.nodos)
-        self.recorridoMaximaPendiente, self.nodosExploradosMP = calcularMaximaPendiente(self.nodos)
+        self.nodosExploradosES = calcularEscaladaSimple(self.nodos)
+        self.nodosExploradosMP = calcularMaximaPendiente(self.nodos)
 
         self.contador_es = 0
         self.contador_mp = 0

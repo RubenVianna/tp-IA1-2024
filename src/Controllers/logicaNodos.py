@@ -39,13 +39,17 @@ def generarAleatorios(cantNodos):
     # Generar conexiones bidireccionales aleatorias entre los nodos
     for nodo in nodos:
         posibles_conexiones = [n for n in nodos if n != nodo and n not in nodo.conexiones]  # Evitar autoconexiones y duplicadas
-        num_conexiones = min(random.randint(1,3), len(posibles_conexiones))  # Asegurarse de no exceder los posibles
+        num_conexiones = min(random.randint(1, 3), len(posibles_conexiones))  # Asegurarse de no exceder los posibles
         conexiones = random.sample(posibles_conexiones, num_conexiones)
         for conexion in conexiones:
             if conexion not in nodo.conexiones:
                 nodo.conexiones.append(conexion)
+                if nodo not in conexion.conexiones:  # Asegurar que la conexión inversa esté presente
+                    conexion.conexiones.append(nodo)
             if nodo not in conexion.conexiones:
                 conexion.conexiones.append(nodo)
+                if conexion not in nodo.conexiones:  # Asegurar que la conexión inversa esté presente
+                    nodo.conexiones.append(conexion)
 
     return nodos
 

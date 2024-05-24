@@ -40,8 +40,8 @@ class ComparacionSoluciones(QWidget):
 
         layout.addLayout(text_layout)
 
-        self.button = QPushButton("Ver Análisis", self)
-        self.button.clicked.connect(self.generar_salida)
+        self.button = QPushButton("Cerrar", self)
+        self.button.clicked.connect(self.cerrarVentana)
         layout.addWidget(self.button)
 
         self.setLayout(layout)
@@ -50,10 +50,15 @@ class ComparacionSoluciones(QWidget):
         self.emitting_stream1 = EmittingStream(self.text_edit1)
         self.emitting_stream2 = EmittingStream(self.text_edit2)
 
-    def generar_salida(self):
+        self.generarSalida()
+
+    def generarSalida(self):
         sys.stdout = self.emitting_stream1
         calcularEscaladaSimple(self.nodos)
    
         sys.stdout = self.emitting_stream2
         calcularMaximaPendiente(self.nodos)
         sys.stdout = sys.__stdout__  # Restaurar stdout original
+    
+    def cerrarVentana(self):
+        self.close()
