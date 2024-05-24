@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QListView, QComboBox
+from PyQt5.QtWidgets import  QComboBox
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 from PyQt5.QtCore import Qt
 
