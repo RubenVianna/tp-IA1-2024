@@ -6,6 +6,7 @@ from Controllers.escaladaSimple import calcularEscaladaSimple
 from Controllers.graficos import graficaryMostrarArbol
 from matplotlib.figure import Figure
 import networkx as nx
+import copy
 
 class GraficacionPasoAPaso(QWidget):
 
@@ -75,7 +76,18 @@ class GraficacionPasoAPaso(QWidget):
         self.atras.clicked.connect(self.volverAtras)
         buttonsLayout.addWidget(self.atras)
 
-        self.graficarArboles()
+        #recupero los datos para el arbol MP
+        self.nodosExploradosMP = calcularMaximaPendiente(self.nodos)
+        self.nodosExploradosMP = copy.deepcopy(self.nodosExploradosMP)
+        self.contador_mp = 0
+        
+        #recupero los nodos para el arbol ES
+        self.nodosExploradosES = calcularEscaladaSimple(self.nodos)
+        self.nodosExploradosES = copy.deepcopy(self.nodosExploradosES)
+        self.contador_es = 0
+
+        self.graficarArbolMaximaPendiente()
+        self.graficarArbolEscaladaSimple()
 
     def siguientePasoES(self):
         if self.contador_es < len(self.nodosExploradosES):
@@ -87,15 +99,6 @@ class GraficacionPasoAPaso(QWidget):
             self.contador_mp += 1
             self.graficarArbolMaximaPendiente()
 
-    def graficarArboles(self):
-        self.nodosExploradosES = calcularEscaladaSimple(self.nodos)
-        self.nodosExploradosMP = calcularMaximaPendiente(self.nodos)
-
-        self.contador_es = 0
-        self.contador_mp = 0
-
-        self.graficarArbolEscaladaSimple()
-        self.graficarArbolMaximaPendiente()
 
     def graficarArbolEscaladaSimple(self):
         if self.contador_es > 0:
@@ -146,8 +149,7 @@ class ArbolCanvas(FigureCanvas):
         levels = {}  # Diccionario para almacenar los nodos por nivel
                 # Agrupar nodos por nivel
         for node in G.nodes():
-            nodito =  G.nodes[node].get('nombre', None)
-            level = G.nodes[node].get('padre', nodito)  # Obtener el nivel del nodo (predeterminado a 0 si no está definido)
+            level = G.nodes[node]["padre"] #Obtengo el nivel del nodo
             if level not in levels:
                 levels[level] = []
             levels[level].append(node)

@@ -107,8 +107,7 @@ class ArbolCanvas(FigureCanvas):
         levels = {}  # Diccionario para almacenar los nodos por nivel
                 # Agrupar nodos por nivel
         for node in G.nodes():
-            nodito =  G.nodes[node].get('nombre', None)
-            level = G.nodes[node].get('padre', nodito)  # Obtener el nivel del nodo (predeterminado a 0 si no está definido)
+            level = G.nodes[node]["padre"]  # Obtener el nivel del nodo
             if level not in levels:
                 levels[level] = []
             levels[level].append(node)
@@ -123,6 +122,5 @@ class ArbolCanvas(FigureCanvas):
                 pos[node] = (x_offset, y_offset)
                 x_offset += x_step
             y_offset += y_step
-
 
         return pos
