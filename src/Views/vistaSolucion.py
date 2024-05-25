@@ -2,7 +2,6 @@ from PyQt5.QtWidgets import  QVBoxLayout, QHBoxLayout, QWidget, QLabel, QPushBut
 from PyQt5.QtGui import QFont
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from networkx.drawing.nx_agraph import graphviz_layout
 from Controllers.graficos import graficaryMostrarArbol
 from Controllers.maximaPendiente import calcularMaximaPendiente
 from Controllers.escaladaSimple import calcularEscaladaSimple
@@ -19,7 +18,7 @@ class VistaSolucion(QWidget):
 
     def initUI(self):
         self.setWindowTitle('Visor de Árboles')
-        self.setFixedSize(1000, 500)  # Establece el tamaño fijo de la ventana
+        self.setFixedSize(900, 600)  # Establece el tamaño fijo de la ventana
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
@@ -99,6 +98,31 @@ class ArbolCanvas(FigureCanvas):
 
     def plot(self, G, colors, labels):
         self.axes.clear()
-        pos = graphviz_layout(G, prog='dot')  # Usar 'dot' para un layout jerárquico
+        pos = self.generarArbol(G)
         nx.draw(G, pos,ax=self.axes, with_labels=False, node_color=colors, node_size=600, edge_color='gray')
         nx.draw_networkx_labels(G, pos, labels, font_size=10, font_weight='bold', ax=self.axes)
+
+    def generarArbol(self,G):
+        pos = {}
+        levels = {}  # Diccionario para almacenar los nodos por nivel
+                # Agrupar nodos por nivel
+        for node in G.nodes():
+            nodito =  G.nodes[node].get('nombre', None)
+            level = G.nodes[node].get('padre', nodito)  # Obtener el nivel del nodo (predeterminado a 0 si no está definido)
+            if level not in levels:
+                levels[level] = []
+            levels[level].append(node)
+
+        # Calcular las posiciones de los nodos
+        x_step = 1.0  # Distancia horizontal entre niveles
+        y_step = -1.0  # Distancia vertical entre nodos en el mismo nivel
+        y_offset = 0  # Desplazamiento vertical inicial
+        for level, nodes in levels.items():
+            x_offset = -((len(nodes) - 1) * x_step) / 2  # Calcula el desplazamiento horizontal inicial para centrar los nodos
+            for node in nodes:
+                pos[node] = (x_offset, y_offset)
+                x_offset += x_step
+            y_offset += y_step
+
+
+        return pos

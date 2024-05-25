@@ -31,7 +31,7 @@ def graficaryMostrarArbol(nodosExplorados, titulo, mostrarResultados):
         G = nx.DiGraph()
         colors = []
         for nodo in nodosExplorados:
-            G.add_node(nodo.nombre, heuristica=nodo.heuristica, minLoc=nodo.minLoc, estadoF=nodo.estadoF, estadoI=nodo.estadoI)
+            G.add_node(nodo.nombre, heuristica=nodo.heuristica, minLoc=nodo.minLoc, estadoF=nodo.estadoF, estadoI=nodo.estadoI, padre=nodo.padre)
             if nodo.padre:
                 G.add_edge(nodo.padre, nodo.nombre)
         
