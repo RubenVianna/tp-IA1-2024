@@ -7,12 +7,14 @@ from Controllers.maximaPendiente import calcularMaximaPendiente
 from Controllers.escaladaSimple import calcularEscaladaSimple
 from Views.comparacionSoluciones import ComparacionSoluciones
 import networkx as nx
+import copy
 
 class VistaSolucion(QWidget):
 
     def __init__(self, nodos, vistaAnterior):
         super().__init__()
-        self.nodos = nodos
+        self.nodosES = copy.deepcopy(nodos)
+        self.nodosMP = copy.deepcopy(nodos)
         self.vistaAnterior = vistaAnterior
         self.initUI()
 
@@ -73,16 +75,40 @@ class VistaSolucion(QWidget):
         buttonsLayout.addWidget(self.atras)
     
     def verConexiones(self):
-        self.comparativa = ComparacionSoluciones(self.nodos)
+        self.comparativa = ComparacionSoluciones(self.nodosES, self.nodosMP)
         self.comparativa.show()
 
     def graficarArboles(self):
-        nodosExploradosES = calcularEscaladaSimple(self.nodos)
-        arbol1, colors1, labels1= graficaryMostrarArbol(nodosExploradosES, "Arbol Escalada Simple", mostrarResultados=True)
-        nodosExploradosMP = calcularMaximaPendiente(self.nodos)
-        arbol2, colors2, labels2= graficaryMostrarArbol(nodosExploradosMP, "Arbol Maxima Pendiente", mostrarResultados=True)
-        self.canvas1.plot(arbol1, colors1, labels1)
-        self.canvas2.plot(arbol2, colors2, labels2)
+        self.nodosExploradosES = calcularEscaladaSimple(self.nodosES)
+        self.nodosExploradosES = copy.deepcopy(self.nodosExploradosES)
+        self.arbol1, self.colors1, self.labels1= graficaryMostrarArbol(self.nodosExploradosES, "Arbol Escalada Simple", mostrarResultados=True)
+        self.arbol1 = copy.deepcopy(self.arbol1)
+        self.colors1 = copy.deepcopy(self.colors1)
+        self.labels1 = copy.deepcopy(self.labels1)
+
+        for col in self.colors1:
+            print('primera iteracion de ES: ', col)
+        print('----------------------')
+
+
+        self.canvas1.plot(self.arbol1, self.colors1, self.labels1)
+
+        self.nodosExploradosMP = calcularMaximaPendiente(self.nodosMP)
+        self.nodosExploradosMP = copy.deepcopy(self.nodosExploradosMP)
+        self.arbol2, self.colors2, self.labels2= graficaryMostrarArbol(self.nodosExploradosMP, "Arbol Maxima Pendiente", mostrarResultados=True)
+        self.arbol2 = copy.deepcopy(self.arbol2)
+        self.colors2 = copy.deepcopy(self.colors2)
+        self.labels2 = copy.deepcopy(self.labels2)
+
+        for col in self.colors2:
+            print('primera iteracion de MP: ', col)
+        print('----------------------')
+
+        for col in self.colors2:
+            print('segunda iteracion de ES: ', col)
+        print('----------------------')
+
+        self.canvas2.plot(self.arbol2, self.colors2, self.labels2)
     
     def volverAtras(self):
         self.close()

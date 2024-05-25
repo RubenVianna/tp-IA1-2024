@@ -12,7 +12,7 @@ class GraficacionPasoAPaso(QWidget):
 
     def __init__(self, nodos, vistaAnterior):
         super().__init__()
-        self.nodos = nodos
+        self.nodos = copy.deepcopy(nodos)
         self.vistaAnterior = vistaAnterior
         self.contador_es = 0
         self.contador_mp = 0
@@ -107,8 +107,11 @@ class GraficacionPasoAPaso(QWidget):
             nodos_mostrar = []
 
         final_iteration = (self.contador_es == len(self.nodosExploradosES))
-        arbol, colors, labels = graficaryMostrarArbol(nodos_mostrar, "Arbol Escalada Simple", mostrarResultados=final_iteration)
-        self.canvas1.plot(arbol, colors, labels)
+        self.arbol1, self.colors1, self.labels1 = graficaryMostrarArbol(nodos_mostrar, "Arbol Escalada Simple", mostrarResultados=final_iteration)
+        self.arbol1 = copy.deepcopy(self.arbol1)
+        self.colors1 = copy.deepcopy(self.colors1)
+        self.labels1 = copy.deepcopy(self.labels1)
+        self.canvas1.plot(self.arbol1, self.colors1, self.labels1)
 
     def graficarArbolMaximaPendiente(self):
         if self.contador_mp > 0:
@@ -117,8 +120,11 @@ class GraficacionPasoAPaso(QWidget):
             nodos_mostrar = []
 
         final_iteration = (self.contador_mp == len(self.nodosExploradosMP))
-        arbol, colors, labels = graficaryMostrarArbol(nodos_mostrar, "Arbol Maxima Pendiente", mostrarResultados=final_iteration)
-        self.canvas2.plot(arbol, colors, labels)
+        self.arbol2, self.colors2, self.labels2 = graficaryMostrarArbol(nodos_mostrar, "Arbol Maxima Pendiente", mostrarResultados=final_iteration)
+        self.arbol2 = copy.deepcopy(self.arbol2)
+        self.colors2 = copy.deepcopy(self.colors2)
+        self.labels2 = copy.deepcopy(self.labels2)
+        self.canvas2.plot(self.arbol2, self.colors2, self.labels2)
 
     def volverAtras(self):
         self.close()

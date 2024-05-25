@@ -3,6 +3,7 @@ from Controllers.escaladaSimple import calcularEscaladaSimple
 from Controllers.maximaPendiente import calcularMaximaPendiente
 from PyQt5.QtGui import QFont
 from PyQt5.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QPushButton, QTextEdit
+import copy
 
 class EmittingStream:
     def __init__(self, text_edit):
@@ -19,11 +20,12 @@ class EmittingStream:
         pass  # No hacemos nada aquí, pero es necesario implementar este método
 
 class ComparacionSoluciones(QWidget):
-    def __init__(self, nodos):
+    def __init__(self, nodosES,nodosMP):
         super().__init__()
         self.setWindowTitle("Comparacion de Escalada Simple y Maxima Pendiente")
         self.setGeometry(100, 100, 800, 400)
-        self.nodos = nodos
+        self.nodosES = copy.deepcopy(nodosES)
+        self.nodosMP = copy.deepcopy(nodosMP)
         layout = QVBoxLayout()
 
         # Layout horizontal para los cuadros de texto
@@ -57,10 +59,10 @@ class ComparacionSoluciones(QWidget):
 
     def generarSalida(self):
         sys.stdout = self.emitting_stream1
-        calcularEscaladaSimple(self.nodos)
+        calcularEscaladaSimple(self.nodosES)
    
         sys.stdout = self.emitting_stream2
-        calcularMaximaPendiente(self.nodos)
+        calcularMaximaPendiente(self.nodosMP)
         sys.stdout = sys.__stdout__  # Restaurar stdout original
     
     def cerrarVentana(self):

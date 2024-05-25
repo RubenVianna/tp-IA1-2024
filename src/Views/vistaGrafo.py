@@ -5,11 +5,12 @@ from PyQt5.QtWidgets import QVBoxLayout, QHBoxLayout, QWidget, QLabel, QLineEdit
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 import networkx as nx
+import copy
 
 class VistaGrafo(QWidget):
     def __init__(self, nodos, vistaAnterior):
         super().__init__()
-        self.nodos = nodos
+        self.nodos = copy.deepcopy(nodos)
         self.vistaAnterior = vistaAnterior
         self.heuristics = {}  # Diccionario para guardar los QLineEdit
         self.initUI()

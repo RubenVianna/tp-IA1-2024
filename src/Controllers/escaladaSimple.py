@@ -14,7 +14,10 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
     
     if nodoActual.estadoF == 'F':
         return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
-        
+    
+    if len(conexionesNoExploradas) ==0:
+        nodoActual.minLoc = 'ML'
+        return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
 # ----------------------------------------------------------- CICLO RECURSIVO ----------------------------------------------------------------------
 
     for nodoCandidato in conexionesNoExploradas:

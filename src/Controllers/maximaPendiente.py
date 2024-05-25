@@ -16,6 +16,10 @@ def exploracion(nodo, nodosNoExplorados, caminoSolucion, nodosRecorridos): # FUN
        # print('El nodo',nodoActual.nombre,' no es final...')
         return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
     
+    if len(conexionesNoExploradas) ==0:
+        nodoActual.minLoc = 'ML'
+        return  caminoSolucionLocal, nodosNoExploradosLocal, nodosRecorridosLocal
+    
    # print('Las conexiones no exploradas del nodo',nodoActual.nombre,'son:', end = ' ')
     # for nodo in conexionesNoExploradas:
     #     print(nodo.nombre, end = ' ')
@@ -108,5 +112,5 @@ def calcularMaximaPendiente(nodos):
     camino_texto = ' -> '.join(nodo.nombre for nodo in caminoSolucion)
     print(f"{'Camino solucion:':45} {camino_texto}")
     print('-----------------------------------------------------------------------------')
-
+    
     return nodosRecorridos
